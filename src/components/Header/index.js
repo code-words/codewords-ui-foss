@@ -6,9 +6,10 @@ const Header = () => {
       <div className="header-left">
         <h1 className="header-title">CodeWords</h1>
       </div>
-      <div className="header-right">
-        
-      </div>
+      <nav className="header-right">
+        <p>Instructions</p>
+        <button className="nav-item new-game-btn">New Game</button>
+      </nav>
     </header>
   );
 };
