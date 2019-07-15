@@ -1,0 +1,12 @@
+.Header {
+  height: 36px;
+  display: flex;
+  flex-direction: space-between;
+  align-items: center;
+
+  .header-title {
+    color: white;
+    font-size: 20px;
+    margin-left: 20px;
+  }
+}
