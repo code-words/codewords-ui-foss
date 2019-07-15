@@ -18,6 +18,13 @@ const Main = () => {
         <p>Jon</p>
         <p>Rachael</p>
       </div>
+      <div>
+      </div>
+      <div>
+        <p>User form/options go here!</p>
+      </div>
+      <div>
+      </div>
     </main>
   );
 };
