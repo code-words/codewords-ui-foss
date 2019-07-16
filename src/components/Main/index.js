@@ -1,29 +1,20 @@
 import React from 'react';
+import Score from '../Score';
 
 const Main = () => {
   return (
     <main className="Main">
-      <div className="temp-score">
-        <h3>Team 1 Score</h3>
-        <p>3</p>
-        <p>Lynne</p>
-        <p>Justin</p>
-      </div>
+      <Score team={1} score={5} players={["Lynne", "Justin"]}/>
       <div className="temp-board">
         Test
       </div>
-      <div className="temp-score">
-        <h3>Team 2 Score</h3>
-        <p>5</p>
-        <p>Jon</p>
-        <p>Rachael</p>
-      </div>
-      <div>
+      <Score team={2} score={6} players={["Rachael", "Jon"]}/>
+      <div className="offset">
       </div>
       <div>
         <p>User form/options go here!</p>
       </div>
-      <div>
+      <div className="offset">
       </div>
     </main>
   );

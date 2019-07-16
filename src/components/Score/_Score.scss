@@ -1,0 +1,21 @@
+.Score {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  height: 200px;
+
+  &.blue-score {
+    background: #5861B4;
+    border: 4px solid rgb(36, 36, 108);
+  }
+
+  &.red-score {
+    background: #B44646;
+    border: 4px solid rgb(99, 36, 36);
+  }
+}
+
