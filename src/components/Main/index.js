@@ -7,9 +7,7 @@ const Main = () => {
   return (
     <main className="Main">
       <Score team={1} score={5} players={["Lynne", "Justin"]}/>
-      {/* <div className="temp-board"> */}
       <Board pType= {'intel'} />
-      {/* </div> */}
       <Score team={2} score={6} players={["Rachael", "Jon"]}/>
       <div className="offset"></div>
       <AgentInput/>
