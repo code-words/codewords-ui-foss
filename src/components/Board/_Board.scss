@@ -1,0 +1,27 @@
+.gameboard {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(5, 100px);
+  grid-auto-rows: repeat(5, 100px);
+  grid-gap: 10px;
+  border: 5px solid lime;
+}
+
+.case-file {
+  display: flex;
+  align-items: center;
+  height: 90px;
+  width: 90px;
+  background: $intel-base;
+  border: magenta 3px solid;
+}
+
+.case-title {
+  background: #FFFFFF;
+  color: $intel-base-accent;
+  text-align: center;
+  height: 2em;
+  width: 100%;
+  text-transform: uppercase;
+  font-size: .8em;
+}

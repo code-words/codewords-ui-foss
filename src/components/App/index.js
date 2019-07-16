@@ -1,5 +1,5 @@
 import React from 'react';
-import './_App.scss';
+// import './_App.scss';
 import Header from '../Header';
 import Main from '../Main';
 

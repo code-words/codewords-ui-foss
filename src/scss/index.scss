@@ -1,18 +1,21 @@
 @import './normalize.scss';
-@import './components/App/App';
-@import './components/Header/Header';
-@import './components/Main/Main';
-@import './components/Score/Score';
+@import './variables.scss';
 
 * {
   margin: 0;
   padding: 0;
 }
 
+@import '../components/App/App';
+@import '../components/Header/Header';
+@import '../components/Main/Main';
+@import '../components/Score/Score';
+@import '../components/Board/Board';
+
 body {
   margin: 0;
   color: white;
-  background: url('./images/bg.jpg') no-repeat center center fixed; 
+  background: url('../images/bg.jpg') no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
