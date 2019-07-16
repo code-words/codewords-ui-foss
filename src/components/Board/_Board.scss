@@ -4,9 +4,11 @@
   align-items: center;
 
   .turn-status {
-    margin-bottom: 10px;
-    margin-top: -20px;
-    font-size: 22px;
+    margin-bottom: 12px;
+    margin-top: -15px;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: 'Krona One', sans-serif;
   }
 }
 
@@ -24,7 +26,7 @@
 .case-file {
   display: flex;
   align-items: center;
-  height: 90px;
+  height: 84px;
   width: 130px;
   border-radius: 5px;
   background: $intel-base;
