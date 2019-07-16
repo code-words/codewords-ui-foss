@@ -6,8 +6,8 @@ const Score = props => {
     <article className={`Score ${scoreClass}`}>
       <h3 className="score-heading">Team {props.team} Score</h3>
       <p className="score-count">{props.score}</p>
-      <p>{props.players[0]}</p>
-      <p>{props.players[1]}</p>
+      <p className="player-name">{props.players[0]}</p>
+      <p className="player-name">{props.players[1]}</p>
     </article>
   );
 };

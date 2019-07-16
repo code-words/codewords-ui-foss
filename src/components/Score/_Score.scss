@@ -8,6 +8,21 @@
   width: 150px;
   height: 200px;
 
+  .score-heading {
+    font-weight: 400;
+    font-size: 25px;
+  }
+
+  .score-count {
+    font-size: 78px;
+    margin: 15px;
+  }
+
+  .player-name {
+    align-self: flex-start;
+    margin: 4px;
+  }
+
   &.blue-score {
     background: #5861B4;
     border: 4px solid rgb(36, 36, 108);
