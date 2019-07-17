@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import {API_ROOT, HEADERS} from '../../variables'
+import { Redirect } from 'react-router-dom';
 
 class NewGame extends Component {
   constructor() {
     super()
     this.state= {
       name: '',
-      numPlayers: 4
+      numPlayers: 4,
+      redirect: false
     }
   }
 
@@ -27,9 +29,12 @@ class NewGame extends Component {
     .then(response => response.json())
     .then(result => this.props.handleWebSocket(result))
 
+    this.setState({redirect: true})
   }
 
   render() {
+    if (this.state.redirect) { return <Redirect to='/lobby' /> };
+
     let { name, numPlayers } = this.state;
     return (
       <div className="backdrop">
@@ -65,10 +70,12 @@ class NewGame extends Component {
               </select>
             </div>
             <input 
-              className="gameSubmit" 
+              className="btn-default start-btn"
               type="submit" 
               disabled={!name || !numPlayers}
-              value="CREATE GAME"/>
+              value="CREATE GAME"
+              onClick={this.handleSubmit}
+            />
           </form>
         </section>
       </div>

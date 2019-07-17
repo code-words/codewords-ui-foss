@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ConversationsList from '../ConversationsList';
+import ConversationsList from '../../ConversationsList';
 
 class AgentInput extends Component {
   constructor() {

@@ -1,9 +1,9 @@
 import React from 'react';
-import Score from '../Score';
-import Board from '../Board';
-import AgentInput from '../AgentInput';
 import { ActionCableProvider } from 'react-actioncable-provider';
 import { API_WS_ROOT } from './variables';
+import Score from './Score';
+import Board from './Board';
+import AgentInput from './AgentInput';
 
 const Main = (props) => {
   return (
