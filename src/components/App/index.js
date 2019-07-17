@@ -12,10 +12,10 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Route exact path='/startScreen' component={StartScreen} />
-      <Route exact path='/ruleList' component={RuleList}/>
-      <Route exact path='/newGame' component={NewGame} />
-      <Route exact path='/joinGame' component={JoinGame} />
+      {/* <Route exact path='/' component={StartScreen} /> */}
+      <Route exact path='/rules' component={RuleList}/>
+      <Route exact path='/new' component={NewGame} />
+      <Route exact path='/join' component={JoinGame} />
       <Route exact path='/lobby' component={Lobby} />
       <Route path='/' component={Main} />
     </div>
