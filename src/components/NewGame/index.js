@@ -27,14 +27,13 @@ class NewGame extends Component {
     }
     fetch(`${API_ROOT}/v1/games`, option)
     .then(response => response.json())
-    .then(result => this.props.handleWebSocket(result))
+    .then(result => this.props.handleUserInit(result))
 
     this.setState({redirect: true})
   }
 
   render() {
     if (this.state.redirect) { return <Redirect to='/lobby' /> };
-
     let { name, numPlayers } = this.state;
     return (
       <div className="backdrop">
@@ -45,7 +44,7 @@ class NewGame extends Component {
           >
             <h2>Creating a new game?</h2>
             <div>
-              <label for="name">
+              <label htmlFor="name">
                 Choose your agent name
                 </label>
               <input 
@@ -56,7 +55,7 @@ class NewGame extends Component {
                 placeholder="Enter Name" />
             </div>
             <div>
-              <label for="numPlayers">
+              <label htmlFor="numPlayers">
                 Number of players
               </label>
               <select
