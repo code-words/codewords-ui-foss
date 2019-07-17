@@ -18,12 +18,13 @@ html {
 @import '../components/JoinGame/JoinGame';
 @import '../components/Lobby/Lobby';
 @import '../components/Main/Main';
-@import '../components/Score/Score';
-@import '../components/Board/Board';
-@import '../components/AgentInput/AgentInput';
+@import '../components/Main/Board/Board';
+@import '../components/Main/Score/Score';
+@import '../components/Main/AgentInput/AgentInput';
 
 body {
   margin: 0;
+  height: 100vh;
   color: white;
   background: url('../images/bg.jpg') no-repeat center center fixed; 
   -webkit-background-size: cover;
