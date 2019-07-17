@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
 
@@ -9,7 +10,9 @@ const Header = () => {
       </div>
       <nav className="header-right">
         <p>Instructions</p>
-        <button className="nav-item new-game-btn">New Game</button>
+        <NavLink to="/startScreen" className="nav-item new-game-btn">
+          New Game
+        </NavLink>
       </nav>
     </header>
   );

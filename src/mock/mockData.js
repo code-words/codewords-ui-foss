@@ -5,3 +5,7 @@ export const words = [
   "lake", "shower", "pool", "briefcase", "skateboard",
   "pasta", "wheel", "wedge", "safe", "lever"
 ]
+
+// const structure = [
+//   {id: 0, word: 'string', flipped: true,}
+// ]
