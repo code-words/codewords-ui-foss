@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Header from '../Header';
-import StartScreen from '../StartScreen';
+import StartScreen from '../../StartScreen';
 import RuleList from '../RuleList';
 import NewGame from '../NewGame';
 import JoinGame from '../JoinGame';

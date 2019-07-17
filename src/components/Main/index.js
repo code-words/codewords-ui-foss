@@ -1,6 +1,6 @@
 import React from 'react';
-import Score from '../Score';
-import Board from '../Board';
+import Score from './Score';
+import Board from './Board';
 import AgentInput from '../AgentInput';
 
 const Main = () => {
