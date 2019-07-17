@@ -7,6 +7,7 @@ import NewGame from '../NewGame';
 import JoinGame from '../JoinGame';
 import Lobby from '../Lobby';
 import Main from '../Main';
+import ConversationsList from '../ConversationsList';
 
 function App() {
   return (
