@@ -1,5 +1,92 @@
 .Lobby {
-  height: 50%;
-  width: 60%;
-  background: $button-default;
+  position: relative;
+  border-radius: 15px;
+  height: 25em;
+  width: 35em;
+  background: $button-hover;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+
+  .Lobby-head {
+    height: 25%;
+    padding-left: 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    .fade {
+      content: "";
+      height: 1.5px;
+      width: 60%;
+      margin-left: 20px;
+      background: linear-gradient(90deg, rgb(126, 126, 126) 0%, rgba(255, 255, 255, 0) 100%);
+    }
+  }
+
+  .Lobby-sub {
+    height: 2%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    h3 {
+      color: rgb(126, 126, 126);
+    }
+  }
+}
+
+.roster {
+  box-sizing: border-box;
+  padding: 30px;
+  height: 70%;
+}
+
+.roster {
+  h4 {
+    margin: 10px 0;
+    font-size: 24px;
+  }
+
+  .agent {
+    background: gray;
+    padding: .5em 1.5em;
+    margin: .2em;
+  }
+
+  .missing {
+    background: none;
+    border: dashed 2px $faint-gray;
+  }
+
+  p {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: .25em;
+  }
+}
+
+#dot1 {
+  animation:blinkingText 1.19s 0s infinite;
+}
+#dot2 {
+  animation:blinkingText 1.19s .2s infinite;
+}
+#dot3 {
+  animation:blinkingText 1.19s .4s infinite;
+}
+#dot4 {
+  animation:blinkingText 1.19s .6s infinite;
+}
+#dot5 {
+  animation:blinkingText 1.19s .8s infinite;
+}
+
+@keyframes blinkingText{
+    0%{     color: #fff;    }
+    49%{    color: transparent; }
+    50%{    color: transparent; }
+    99%{    color:transparent;  }
+    100%{   color: #fff;    }
 }
