@@ -1,27 +1,54 @@
+.Board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .turn-status {
+    margin-bottom: 12px;
+    margin-top: -15px;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: 'Krona One', sans-serif;
+  }
+}
+
 .gameboard {
-  box-sizing: border-box;
+  background: rgb(21, 21, 24);
+  border-radius: 8px;
   display: grid;
-  grid-template-columns: repeat(5, 100px);
-  grid-auto-rows: repeat(5, 100px);
-  grid-gap: 10px;
-  border: 5px solid lime;
+  padding: 5px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: repeat(5, 1fr);
+  grid-gap: 5px;
+  border: 3px solid rgb(62, 85, 104);
 }
 
 .case-file {
   display: flex;
   align-items: center;
-  height: 90px;
-  width: 90px;
+  height: 84px;
+  width: 130px;
+  border-radius: 5px;
   background: $intel-base;
-  border: magenta 3px solid;
 }
 
 .case-title {
   background: #FFFFFF;
-  color: $intel-base-accent;
-  text-align: center;
-  height: 2em;
   width: 100%;
-  text-transform: uppercase;
-  font-size: .8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .word-txt {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: .9em;
+    font-weight: 500;
+    padding: 10px 0;
+    color: rgb(108, 93, 74);
+  }
+}
+
+.Active {
+  color: $player-active;
 }
