@@ -17,6 +17,13 @@
 
     .new-game-btn {
       margin-left: 30px;
+      padding: 5px 15px;
+      font-size: 14px;
+      color: black;
+
+      &:hover {
+        color: white;
+      }
     }
   }
 }

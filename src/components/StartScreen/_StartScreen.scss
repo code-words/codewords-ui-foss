@@ -24,48 +24,13 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
   }
 
-  a {
-    background: $button-default;
-    box-sizing: border-box;
-    border: silver 2px solid;
-    border-radius: 20px;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    height: 50px;
+  .start-btn {
+    height: 46px;
     width: 200px;
-    padding-top: 3%;
-
-    &:hover {
-      background: $intel-assassin;
-    }
+    margin: 15px;
   }
+
 }
 
-.gameSubmit {
-  background: $button-default;
-  border: silver 2px solid;
-  border-radius: 20px;
-  color: white;
-  cursor: pointer;
-  font-size: 1.2em;
-  font-weight: 700;
-  height: 50px;
-  width: 160px;
-
-  &:hover {
-    background: $button-hover;
-  }
-  
-  &:disabled {
-    background: $button-default;
-    color: gray;
-    cursor: default;
-    font-size: 1em;
-    font-weight: 400;
-  }
-}

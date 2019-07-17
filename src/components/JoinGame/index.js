@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class JoinGame extends Component {
   constructor() {
@@ -51,12 +52,13 @@ class JoinGame extends Component {
                 onChange={ this.handleChange }  
               />
             </div>
-            <input 
-              className="gameSubmit"
-              type="submit" 
-              value="SUBMIT" 
-              disabled={!this.state.inviteCode || !this.state.name}
-            />
+            <Link className="btn-default start-btn" to='/game'>
+              <input 
+                type="submit" 
+                value="SUBMIT" 
+                disabled={!this.state.inviteCode || !this.state.name}
+              />
+            </Link>
           </form>
         </section>
       </div>
