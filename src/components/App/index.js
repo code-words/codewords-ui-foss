@@ -36,7 +36,7 @@ export class App extends Component {
              <Route exact path='/game' component={Main} />
              <Route component={ErrorScreen} />
              <Route path='/' render={() => <Main websocket={this.state.socket}/>}/>
-  //            <ConversationsList />
+             {/* <ConversationsList /> */}
          </Switch>
        </div>
      );
