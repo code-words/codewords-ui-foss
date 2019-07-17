@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import ConversationsList from '../ConversationsList';
 
 class AgentInput extends Component {
   constructor() {
@@ -23,10 +24,11 @@ class AgentInput extends Component {
 
   render() {
     return (
-      <form>
-        <input name="hint" type="text" value={this.state.hint} onChange={this.handleChange} />
-        <input name="relWords" type="number" value={this.state.relWords} onChange={this.handleChange} />
-        <input type="submit" onClick={this.handleSubmit} />
+      <form className="AgentInput">
+        <ConversationsList name="hint" type="text" value={this.state.hint} onChange={this.handleChange} />
+        {/* <input name="hint" type="text" value={this.state.hint} onChange={this.handleChange} /> */}
+        <input className="num-input" name="relWords" type="number" value={this.state.relWords} onChange={this.handleChange} />
+        {/* <input type="submit" onClick={this.handleSubmit} /> */}
       </form>
     )
   }

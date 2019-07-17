@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ActionCable } from 'react-actioncable-provider';
 import { API_ROOT } from '../../variables';
@@ -53,7 +52,7 @@ class ConversationsList extends React.Component {
             handleReceivedMessage={this.handleReceivedMessage}
           />
         ) : null}
-        <h2>Conversations</h2>
+        {/* <h2>Conversations</h2> */}
         <ul>{mapConversations(conversations, this.handleClick)}</ul>
         <NewConversationForm />
         {activeConversation ? (
