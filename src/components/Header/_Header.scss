@@ -22,8 +22,17 @@
       color: black;
 
       &:hover {
-        color: white;
+        background: $player-active;
       }
+    }
+  }
+
+  a {
+    font-size: 24px;
+    color: silver;
+
+    &:hover {
+      color: $player-active;
     }
   }
 }

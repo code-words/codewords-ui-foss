@@ -10,7 +10,7 @@ const Header = () => {
       </div>
       <nav className="header-right">
         <NavLink to="/rules" className="nav-item rules-nav">
-          Instructions
+          <i className="fas fa-question-circle"/>
         </NavLink>
         <NavLink to="/" className="nav-item btn-default new-game-btn">
           New Game
