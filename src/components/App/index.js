@@ -11,7 +11,6 @@ import ErrorScreen from '../ErrorScreen';
 
 function App() {
 
-  
   return (
     <div className="App">
       <Header />
