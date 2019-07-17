@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {API_ROOT, HEADERS} from '../../variables'
 import { Redirect } from 'react-router-dom';
 
 class NewGame extends Component {
@@ -19,6 +20,15 @@ class NewGame extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    let option ={
+      headers: HEADERS,
+      method: 'POST',
+      body: JSON.stringify({name: this.state.name})
+    }
+    fetch(`${API_ROOT}/v1/games`, option)
+    .then(response => response.json())
+    .then(result => this.props.handleWebSocket(result))
+
     this.setState({redirect: true})
   }
 
