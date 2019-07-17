@@ -14,14 +14,14 @@ function App() {
     <div className="App">
       <Header />
       <Switch>
-        {/* <Route exact path='/' component={StartScreen} /> */}
+        <Route exact path='/' component={StartScreen} />
         <Route exact path='/rules' component={RuleList}/>
         <Route exact path='/new' component={NewGame} />
         <Route exact path='/join' component={JoinGame} />
         <Route exact path='/lobby' component={Lobby} />
-        <Route path='/game' component={Main} />
+        <Route exact path='/game' component={Main} />
+        <Route component={ErrorScreen} />
       </Switch>
-      <Route component={ErrorScreen} />
     </div>
   );
 }
