@@ -1,0 +1,18 @@
+.RuleList {
+  position: relative;
+  top: 10px;
+  background: $overlay-filter;
+  padding: 15px;
+  height: 90%;
+  width: 60%;
+}
+
+.rules {
+  border-top: solid white 2px;
+  height: 90%;
+  overflow: scroll;
+
+  p {
+    margin: 10px;
+  }
+}

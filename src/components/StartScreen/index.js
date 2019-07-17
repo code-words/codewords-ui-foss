@@ -3,11 +3,20 @@ import { NavLink } from 'react-router-dom';
 
 const StartScreen = () => {
   return (
-    <nav className="StartScreen">
-      <NavLink to="/newGame">Start New Game</NavLink>
-      <NavLink to="/joinGame">Join Game</NavLink>
-      <NavLink to="/ruleList">View Rule List</NavLink>
-    </nav>
+    <div className="backdrop">
+      <section className="StartScreen">
+        <article>
+          <h2>Welcome to CodeWords</h2>
+          <h4>We've got a mission for you agents!</h4>
+          <p>Get your friends together to put your wits to the test. Play team vs team to see if you have what it takes to be the best damn operatives we've got. Give your partner one word hints to find the most case files.</p> 
+        </article>
+        <nav>
+          <NavLink to="/newGame">START NEW GAME</NavLink>
+          <NavLink to="/joinGame">JOIN GAME</NavLink>
+          <NavLink to="/ruleList">VIEW RULE LIST</NavLink>
+        </nav>
+      </section>
+    </div>
   )
 }
 

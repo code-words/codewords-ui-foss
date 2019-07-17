@@ -1,7 +1,18 @@
+.backdrop {
+  content: "";
+  background: $overlay-filter;
+  position: absolute;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 button {
   border-radius: 5px;
   padding: 5px 12px;
   font-size: 14px;
   cursor: pointer;
 }
-
