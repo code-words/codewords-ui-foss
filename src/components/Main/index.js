@@ -13,7 +13,7 @@ const Main = (props) => {
       <Board pType= {'intel'} />
       <Score team={2} score={6} players={["Rachael", "Jon"]}/>
       <div className="offset"></div>
-      <AgentInput/>
+      <AgentInput websocket={props.websocket}/>
       <div className="offset"></div>
       </ActionCableProvider>
     </main>
