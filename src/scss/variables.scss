@@ -15,3 +15,12 @@ $team-blue-bg: #5861B4;
 $team-blue-border: #1A2858;
 $team-red-bg: #B44646;
 $team-red-border: #531616;
+
+$overlay-filter: rgba(6, 6, 6, 0.66);
+$archer-vice: url("https://i.imgur.com/Z4xMr4W.png");
+
+$header-font: 'Krona One', sans-serif;
+$button-default: 
+  linear-gradient(180deg, rgb(189, 189, 189) 0%, rgba(255, 255, 255, 0) 100%), 
+  rgb(130, 127, 123);
+$button-hover: $intel-assassin;
