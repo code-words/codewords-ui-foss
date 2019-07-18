@@ -17,9 +17,9 @@ export class App extends Component {
     }
   }
 
-  handleWebSocket = ({name,value}) => {
+  handleWebSocket = ({ name, value}) => {
    this.setState({
-     socket:value
+     socket: value
    })
   }
  

@@ -1,0 +1,26 @@
+
+.case-file {
+  display: flex;
+  align-items: center;
+  height: 84px;
+  width: 130px;
+  border-radius: 5px;
+  background: $intel-base;
+}
+
+.word-bg {
+  background: #FFFFFF;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .word-txt {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: .9em;
+    font-weight: 500;
+    padding: 10px 0;
+    color: rgb(108, 93, 74);
+  }
+}
