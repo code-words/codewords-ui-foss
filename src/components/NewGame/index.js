@@ -7,7 +7,6 @@ class NewGame extends Component {
     super()
     this.state= {
       name: '',
-      numPlayers: 4,
       redirect: false
     }
   }
@@ -33,8 +32,9 @@ class NewGame extends Component {
   }
 
   render() {
-    if (this.state.redirect) { return <Redirect to='/lobby' /> };
-    let { name, numPlayers } = this.state;
+    let { name, numPlayers, redirect } = this.state;
+    if (redirect) { return <Redirect to='/lobby' /> };
+
     return (
       <div className="backdrop">
         <section className="StartScreen">
@@ -54,24 +54,10 @@ class NewGame extends Component {
                 type="text" 
                 placeholder="Enter Name" />
             </div>
-            <div>
-              <label htmlFor="numPlayers">
-                Number of players
-              </label>
-              <select
-                name="numPlayers"
-                onChange={this.handleChange}
-                value={numPlayers}
-              >
-                <option>2</option>
-                <option>4</option>
-                <option>6</option>
-              </select>
-            </div>
             <input 
               className="btn-default start-btn"
               type="submit" 
-              disabled={!name || !numPlayers}
+              disabled={ !name }
               value="CREATE GAME"
               onClick={this.handleSubmit}
             />
