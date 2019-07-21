@@ -143,7 +143,7 @@ export class App extends Component {
           <Route exact path="/lobby" component={Lobby} />
           <Route exact path="/game" component={Main} />
           <Route component={ErrorScreen} />
-          <Route path="/" render={() => <Main token={this.state.token} />} />
+          <Route path="/" render={() => <Main token={this.state.token} hintLogs={this.state.hintLogs} />} />
         </Switch>
       </div>
     );
