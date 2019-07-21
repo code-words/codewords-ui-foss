@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { API_ROOT, HEADERS } from "../../variables";
+import { Redirect } from "react-router-dom";
 
 class JoinGame extends Component {
   constructor() {
     super()
-    this.state= {
-      inviteCode: '',
-      name: ''
-    }
+    this.state = {
+      inviteCode: "",
+      name: "",
+      redirect: false
+    };
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
+    let { name, inviteCode } = this.state;
 
-    console.log('do the thing: joingame')
+    let option = {
+      headers: HEADERS,
+      method: "POST",
+      body: JSON.stringify({ name })
+    };
+    fetch(`${API_ROOT}/v1/games/${inviteCode}/players`, option)
+      .then(response => response.json())
+      .then(result => this.props.handleUserInit(result));
+
+    this.setState({ redirect: true });
   }
 
   handleChange = (e) => {
@@ -23,46 +35,42 @@ class JoinGame extends Component {
   }
 
   render() {
-    console.log('JOIN GAME (state): ', this.state)
+    if (this.state.redirect) { return <Redirect to='/lobby' /> };
 
     return (
       <div className="backdrop">
         <section className="StartScreen">
-          <form 
-            className="JoinGame"
-            onSubmit={this.handleSubmit} 
-          >
+          <form className="JoinGame" onSubmit={this.handleSubmit}>
             <h2>Friends started a game?</h2>
             <div>
               <label for="inviteCode">Please enter invite code</label>
-              <input 
-                name="inviteCode" 
-                value={ this.state.inviteCode } 
-                type="text" 
-                placeholder="Enter Invite Code" 
-                onChange={ this.handleChange }
+              <input
+                name="inviteCode"
+                value={this.state.inviteCode}
+                type="text"
+                placeholder="Enter Invite Code"
+                onChange={this.handleChange}
               />
             </div>
             <div>
               <label for="inviteCode">Choose your agent name</label>
-              <input 
-                name="name" 
-                type="text" 
-                placeholder="Enter Name" 
-                onChange={ this.handleChange }  
+              <input
+                name="name"
+                type="text"
+                placeholder="Enter Name"
+                onChange={this.handleChange}
               />
             </div>
-            <Link className="btn-default start-btn" to='/game'>
-              <input 
-                type="submit" 
-                value="SUBMIT" 
-                disabled={!this.state.inviteCode || !this.state.name}
-              />
-            </Link>
+            <input
+              className="btn-default start-btn"
+              type="submit"
+              value="SUBMIT"
+              disabled={!this.state.inviteCode || !this.state.name}
+            />
           </form>
         </section>
       </div>
-    )
+    );
   }
 }
 
