@@ -44,27 +44,6 @@ class AgentInput extends Component {
         currentChatMessage: target.value
       });
   }
-    createSocket() {
-      // let cable = Cable.createConsumer(`ws://localhost:3000/cable/${this.props.token}`);
-      // this.chats = cable.subscriptions.create({
-      //   channel: 'GameDataChannel'
-      // }, {
-      //   connected: () => {},
-      //   received: (data) => {
-      //     let chatLogs = this.state.chatLogs;
-      //     chatLogs.push(data);
-      //     this.setState({ chatLogs });
-      //   },
-      //   create: function(chatContent) {
-      //     this.perform('create', {
-      //       content: chatContent
-      //     });
-      //   }
-      // });
-    }
-  componentWillMount() {
-    this.createSocket();
-  }
 
   render() {
     return (
