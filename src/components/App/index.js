@@ -23,11 +23,12 @@ export class App extends Component {
     this.setState({ token }, () => this.createCable(token));
   };
 
-  updatehintLogs = data => {
+  updatehintLogs = (data) => {
     let hintLogs = this.state.hintLogs;
     hintLogs.push(data);
     this.setState({ hintLogs });
   };
+
 
   dataSwitch = res => {
     let data = res.data;
@@ -122,8 +123,7 @@ export class App extends Component {
           <Route exact path="/lobby" component={Lobby} />
           <Route exact path="/game" component={Main} />
           <Route component={ErrorScreen} />
-          <Route path="/" render={() => <Main token={this.state.token} />} />
-          {/* <ConversationsList /> */}
+          <Route path="/" render={() => <Main token={this.state.token} hintLogs={this.state.hintLogs} />} />
         </Switch>
       </div>
     );

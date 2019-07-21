@@ -8,7 +8,7 @@ class AgentInput extends Component {
       hint: '',
       relWords: 0,
         currentChatMessage: '',
-        chatLogs: []
+        hintLogs: []
     }
   }
 
@@ -27,7 +27,7 @@ class AgentInput extends Component {
     });
   }
   renderChatLog() {
-    return this.state.chatLogs.map((chat) => {
+    return this.state.hintLogs.map((chat) => {
       return (
         <li key={`chat_${chat.id}`}>
           <span className='chat-message'>{ chat.content }</span>
@@ -45,12 +45,15 @@ class AgentInput extends Component {
       });
   }
 
+  componentDidMount = () => {
+    let hintLogs = this.props.hintLogs;
+    this.setState({hintLogs})
+  }
+
   render() {
     return (
       <form className="AgentInput">
-        {/* <input name="hint" type="text" value={this.state.hint} onChange={this.handleChange} /> */}
         <input className="num-input" name="relWords" type="number" value={this.state.relWords} onChange={this.handleChange} />
-        {/* <input type="submit" onClick={this.handleSubmit} /> */}
         <h1>Chat</h1>
             <ul className='chat-logs'>
               { this.renderChatLog() }
