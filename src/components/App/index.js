@@ -100,9 +100,6 @@ export class App extends Component {
               break;
             default: console.log('ERROR in Switch');
           }
-          // let hintLogs = this.state.hintLogs;
-          // hintLogs.push(res);
-          // this.setState({ hintLogs });
       this.hints = cable.subscriptions.create(
         {
           channel: "GameDataChannel"
@@ -147,7 +144,6 @@ export class App extends Component {
           <Route exact path="/game" component={Main} />
           <Route component={ErrorScreen} />
           <Route path="/" render={() => <Main token={this.state.token} />} />
-          {/* <ConversationsList /> */}
         </Switch>
       </div>
     );
