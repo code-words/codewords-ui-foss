@@ -15,7 +15,8 @@ export class App extends Component {
     super();
     this.state = {
       token: "000",
-      hintLogs: []
+      hintLogs: [],
+      cardData: []
     };
   }
 
@@ -42,10 +43,11 @@ export class App extends Component {
         console.log(data)
         break;
       default:
-        console.log('deafult case')
+        console.log('default case')
         break;
     }
   };
+
   createCable = token => {
     if (this.state.token === token) {
       let cable = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
@@ -53,25 +55,29 @@ export class App extends Component {
       this.hints = cable.subscriptions.create({
         channel: 'GameDataChannel'
       }, {
+        // we get connected log when players join, but no received log
         connected: () => {console.log("connected")},
         disconnected: () => { console.log("disconnected")},
         rejected: () => { console.log("rejected")},
         received: (res) => {
-          console.log(res)
-          switch (res.type) {
+          const result = JSON.parse(res.message);
+          switch (result.type) {
             // case 'player':
             //   this.setPlayer(res.player)
             //   break;
             case 'player-joined':
               // Who is the device's player??
-              this.setPlayer(res.data)
+              console.log("WE'VE HAVE A PLAYER");
+              // this.setPlayer(result.data)
               // Add player to lobby, show all players actively in lobby
               // Once lobby is full, redirect to game
               // Set game info [cards, teams, etc]
               break;
             case 'game-setup':
+              console.log("WE'VE HAVE A GAME");
+              console.log(result);
               // What is the game res?
-              this.setGame(res.data)
+              // this.setGame(result.data)
               // Set card res in state
                 // Make sure the card res is getting to the gameboard
               // Set teams
@@ -81,14 +87,17 @@ export class App extends Component {
               break;
               case 'player-hint':
                 // Did a player give a hint?
-                this.setHint(res.data);
+                this.setHint(result.data);
                 // What is the hint and how many cards does it relate to?
                   // Render hint to all players
                   // Switch active player to Spy of same team
+              let hintLogs = this.state.hintLogs;
+              hintLogs.push(result);
+              this.setState({ hintLogs });
               break;
             case 'player-guess':
               // Did a player click on a card?
-              this.setGuess(res.data);
+              this.setGuess(result.data);
               // Flip card
                 // if this.state.words === guess
                   // Process correct guess
@@ -100,33 +109,31 @@ export class App extends Component {
               break;
             default: console.log('ERROR in Switch');
           }
-          // let hintLogs = this.state.hintLogs;
-          // hintLogs.push(res);
-          // this.setState({ hintLogs });
-      this.hints = cable.subscriptions.create(
-        {
-          channel: "GameDataChannel"
-        },
-        {
-          connected: () => {
-            console.log("connected");
-          },
-          disconnected: () => {
-            console.log("disconnected");
-          },
-          rejected: () => {
-            console.log("rejected");
-          },
-          received: data => {
-            this.dataSwitch(data);
-          },
-          create: function(hintContent) {
-            this.perform("create", {
-              content: "hello"
-            });
-          }
-        }
-      );
+
+      // this.hints = cable.subscriptions.create(
+      //   {
+      //     channel: "GameDataChannel"
+      //   },
+      //   {
+      //     connected: () => {
+      //       console.log("connected");
+      //     },
+      //     disconnected: () => {
+      //       console.log("disconnected");
+      //     },
+      //     rejected: () => {
+      //       console.log("rejected");
+      //     },
+      //     received: data => {
+      //       this.dataSwitch(data);
+      //     },
+      //     create: function(hintContent) {
+      //       this.perform("create", {
+      //         content: "hello"
+      //       });
+      //     }
+      //   }
+      // );
     }
   })}}
 
