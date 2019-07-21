@@ -26,13 +26,13 @@ export class App extends Component {
     );
   };
 
-  updatehintLogs = data => {
+  updatehintLogs = (data) => {
     let hintLogs = this.state.hintLogs;
     hintLogs.push(data);
     this.setState({ hintLogs });
   };
 
-  dataSwitch = data => {
+  dataSwitch = (data) => {
     let type = data.type;
     switch (type) {
       case "hintLogs":
@@ -46,7 +46,7 @@ export class App extends Component {
         break;
     }
   };
-  createCable = token => {
+  createCable = (token) => {
     if (this.state.token === token) {
       let cable = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
       console.log(cable)
