@@ -15,7 +15,7 @@ export class App extends Component {
     super();
     this.state = {
       token: "000",
-      chatLogs: []
+      hintLogs: []
     };
   }
 
@@ -26,17 +26,17 @@ export class App extends Component {
     );
   };
 
-  updateChatLogs = data => {
-    let chatLogs = this.state.chatLogs;
-    chatLogs.push(data);
-    this.setState({ chatLogs });
+  updatehintLogs = data => {
+    let hintLogs = this.state.hintLogs;
+    hintLogs.push(data);
+    this.setState({ hintLogs });
   };
 
   dataSwitch = data => {
     let type = data.type;
     switch (type) {
-      case "chatLogs":
-        this.updateChatLogs(data);
+      case "hintLogs":
+        this.updatehintLogs(data);
         break;
       case "cardGuess":
         console.log(data)
@@ -50,7 +50,7 @@ export class App extends Component {
     if (this.state.token === token) {
       let cable = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
       console.log(cable)
-      this.chats = cable.subscriptions.create({
+      this.hints = cable.subscriptions.create({
         channel: 'GameDataChannel'
       }, {
         connected: () => {console.log("connected")},
@@ -100,10 +100,10 @@ export class App extends Component {
               break;
             default: console.log('ERROR in Switch');
           }
-          // let chatLogs = this.state.chatLogs;
-          // chatLogs.push(res);
-          // this.setState({ chatLogs });
-      this.chats = cable.subscriptions.create(
+          // let hintLogs = this.state.hintLogs;
+          // hintLogs.push(res);
+          // this.setState({ hintLogs });
+      this.hints = cable.subscriptions.create(
         {
           channel: "GameDataChannel"
         },
@@ -120,7 +120,7 @@ export class App extends Component {
           received: data => {
             this.dataSwitch(data);
           },
-          create: function(chatContent) {
+          create: function(hintContent) {
             this.perform("create", {
               content: "hello"
             });
