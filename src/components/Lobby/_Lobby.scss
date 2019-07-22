@@ -25,14 +25,32 @@
   }
 
   .Lobby-sub {
-    height: 2%;
+    height: 20%;
     box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     
     h3 {
       color: rgb(126, 126, 126);
+    }
+
+    p {
+      margin-top: 1em;
+
+      code {
+        padding-left: 10px;
+
+        i {
+          padding-left: 10px;
+        }
+
+        &:hover {
+          cursor: pointer;
+          font-weight: 700;
+        }
+      }
     }
   }
 }

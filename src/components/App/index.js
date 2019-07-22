@@ -14,10 +14,13 @@ export class App extends Component {
   constructor() {
     super();
     this.state = {
-      token: "000",
+      user: {},
+      invite_code: '',
+      playerRoster: [],
       hintLogs: [],
       cardData: [],
-      cable: {}
+      cable: {},
+      isLobbyFull: false
     };
   }
 
@@ -27,8 +30,7 @@ export class App extends Component {
     const user = { id, name, token }
     if (result.invite_code)
       this.setState({ invite_code: result.invite_code });
-
-    this.setState({ token, user }, () => this.createCable(token));
+    this.setState({ user }, () => this.createCable(token));
   };
 
   updateHintLogs = (data) => {
@@ -40,10 +42,31 @@ export class App extends Component {
   setPlayer = (data) => {
     const { playerRoster } = data;
     console.log('The Deets',data);
-    this.setState({ playerRoster })
+    this.setState({ playerRoster }, () =>{
+      if (this.state.playerRoster.length === 4) {
+        this.setState({ isLobbyFull: true })
+      }})
   };
 
-  dataSwitch = (result) => {
+  setGame = async data => {
+    const { cards, players } = data;
+    const user = players.find(p => p.id === this.state.user.id);
+    let cardData = cards;
+    
+    if (user.isIntel) {
+      const res = await fetch(`http://localhost:3000/api/v1/intel?token=${this.state.user.token}`);
+      cardData = await res.json();
+      cardData = cardData.cards;
+    } 
+
+    this.setState({
+      cardData,
+      user: { ...this.state.user, ...user },
+      playerRoster: players
+    });
+  }
+
+  dataSwitch = result => {
     const { type, data } = result;
 
     switch (type) {
@@ -52,17 +75,8 @@ export class App extends Component {
         this.setPlayer(data);
         // Set game info [cards, teams, etc]
         break;
-      case "game-setup":
-        // What is the game res?
-        console.log("WE HAVE A GAME");
-        console.log(data);
-        //** this.setGame(data);
-        // Set card res in state
-        // Make sure the card res is getting to the gameboard
-        // Set teams
-        // Which teams go first
-        // Who is on the intel side?
-        // Fetch Intel Cheatsheet
+      case 'game-setup':
+        this.setGame(data);
         break;
       case "player-hint":
         // Did a player give a hint?
@@ -74,7 +88,7 @@ export class App extends Component {
         break;
       case "player-guess":
         // Did a player click on a card?
-        this.setGuess(data);
+        // this.setGuess(res);
         // Flip card
         // if this.state.words === guess
         // Process correct guess
@@ -90,25 +104,21 @@ export class App extends Component {
   };
 
   createCable = token => {
-    if (this.state.token === token) {
+    if (this.state.user.token === token) {
       let cable = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
-      this.hints = cable.subscriptions.create({
-        channel: 'GameDataChannel'
-      }, {
-          connected: () => { console.log("connected") },
-          disconnected: () => { console.log("disconnected") },
-          rejected: () => { console.log("rejected") },
-          hint:(data) => {
-            return this.perform("hint", data);
-          },
-          received: (res) => {
-            const result = JSON.parse(res.message);
-            this.dataSwitch(result);
-          }
-        })
-        this.setState({cable: this.hints})
-        
 
+      this.cable = cable.subscriptions.create(
+        { channel: 'GameDataChannel' },
+        {
+          connected: () => console.log("connected"),
+          disconnected: () => console.log("disconnected"),
+          rejected: () => console.log("rejected"),
+          hint: (data) => this.perform("hint", data),
+          received: res => this.dataSwitch(JSON.parse(res.message)),
+          sendHint: hint => this.perform("send_hint", { content: hint }),
+          sendGuess: guess => this.perform("send_hint", { content: guess })
+        this.setState({cable: this.hints})
+      }
       }
   };
 
@@ -130,10 +140,23 @@ export class App extends Component {
             path="/join"
             render={() => <JoinGame handleUserInit={this.handleUserInit} />}
           />
-          <Route exact path="/lobby" component={Lobby} />
-          <Route exact path="/game" component={Main} />
+          <Route exact path="/lobby" render={() => <Lobby 
+            players={this.state.playerRoster} 
+            inviteCode={this.state.invite_code}
+            isLobbyFull={this.state.isLobbyFull}
+          />} />
+          <Route exact path="/game" component={() => <Main 
+            token={this.state.user.token}
+            hintLogs={this.state.hintLogs}
+            cardData= { this.state.cardData }/>} />
           <Route component={ErrorScreen} />
-          <Route path="/" render={() => <Main cable = {this.state.cable} token={this.state.token} hintLogs={this.state.hintLogs} />} />
+
+          {/* <Route path="/" render={() => <Main
+          cable = {this.state.cable}
+            token={this.state.user.token}
+            hintLogs={this.state.hintLogs}
+            cardData={this.state.cardData}
+          />} /> */}
         </Switch>
       </div>
     );

@@ -26,7 +26,6 @@ class AgentInput extends Component {
     });
   }
 
-
   renderChatLog() {
     // return this.state.hintLogs.map((chat) => {
     //   return (

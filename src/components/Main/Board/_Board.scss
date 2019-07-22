@@ -30,6 +30,26 @@
   width: 130px;
   border-radius: 5px;
   background: $intel-base;
+
+  &.red {
+    background: $intel-red;
+    border: 1px solid $intel-red-accent;
+  }
+  
+    &.blue {
+    background: $intel-blue;
+    border: 1px solid $intel-blue-accent;
+  }
+
+    &.bystander {
+    background: $intel-base;
+    border: 1px solid $intel-base-accent;
+  }
+
+    &.assassin {
+    background: $intel-assassin;
+    border: 1px solid $intel-assassin-accent;
+  }
 }
 
 .case-title {
