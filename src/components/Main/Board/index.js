@@ -1,31 +1,49 @@
 import React from 'react';
+import CardFront from './CardFront';
+import CardBack from './CardBack';
 
-const Board = props => {
-  const status = props.isActive ? "Active" : "Inactive";
+class Board extends React.Component {
+  constructor(props) {
+    super(props);
 
-  console.log('Board Props', props)
-  
-  return (
-    <section className="Board">
+  }
+
+  handleClick = e => {
+    console.log(e.target.id);
+  }
+
+  render() {
+    const { isActive, cardData } = this.props;
+    const status = isActive ? "Active" : "Inactive";
+    
+    console.log('Board Props', this.props)
+    
+    return (
+      <section className="Board">
       <h2 className="turn-status">
         Agent Status:
         <span className={status}>{status}</span>
       </h2>
       <div className="gameboard">
-        {props.cardData.map(card => {
-          const intelClass = card.type ? card.type : '';
-
-          return (
-            <article className={`case-file ${intelClass}`} key={`${card.word}-file`}>
-              <div className="case-title" key={`${card.word}-title`}>
-                <p className="word-txt" key={`${card.word}-txt`}>{card.word}</p>
-              </div>
-            </article>
-          )
+        {cardData.map(card => {
+          if (card.flipped) return <CardBack
+            type={card.type}
+            key={card.word}
+            id={card.id}
+          />
+          
+          return <CardFront
+            card={card}
+            key={card.word}
+            id={card.id}
+            isActive={isActive}
+            onClick={this.handleClick}
+          />
         })}
       </div>
     </section>
   )
+}
 }
 
 export default Board;
