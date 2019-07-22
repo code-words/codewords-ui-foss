@@ -16,7 +16,8 @@ export class App extends Component {
     this.state = {
       token: "000",
       hintLogs: [],
-      cardData: []
+      cardData: [],
+      playerData: {}
     };
   }
 
@@ -30,40 +31,35 @@ export class App extends Component {
     this.setState({ hintLogs });
   };
 
-
   dataSwitch = res => {
-    let data = res.data;
-    switch (data) {
-      // case 'player':
-      //   this.setPlayer(res.player)
-      //   break;
+    switch (res.type) {
       case "player-joined":
-        // Who is the device's player??
-        this.setPlayer(data);
+        this.setState({ playerData: { id: res.data.id}})
+        // this.setPlayer(data);
+        console.log("WE'VE HAVE A PLAYER");
+        console.log(res.data.id)
         // Add player to lobby, show all players actively in lobby
         // Once lobby is full, redirect to game
         // Set game info [cards, teams, etc]
         break;
-      case "game-setup":
-        // What is the game res?
-        this.setGame(data);
-        // Set card res in state
-        // Make sure the card res is getting to the gameboard
-        // Set teams
-        // Which teams go first
-        // Who is on the intel side?
-        // Fetch Intel Cheatsheet
+      case 'game-setup':
+        console.log(res);
+        const { cards, players } = res.data;
+        const playerData = players.find(p => p.id === this.state.playerData.id);
+        const cardData = cards; //build out w/ condition later to fetch intel 
+
+        this.setState({ cardData, playerData });
         break;
       case "player-hint":
         // Did a player give a hint?
-        this.setHint(data);
+        // this.setHint(res);
         // What is the hint and how many cards does it relate to?
         // Render hint to all players
         // Switch active player to Spy of same team
         break;
       case "player-guess":
         // Did a player click on a card?
-        this.setGuess(data);
+        // this.setGuess(res);
         // Flip card
         // if this.state.words === guess
         // Process correct guess
@@ -81,95 +77,22 @@ export class App extends Component {
   createCable = token => {
     if (this.state.token === token) {
       let cable = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
-      console.log(cable)
-      this.hints = cable.subscriptions.create({
-        channel: 'GameDataChannel'
-      }, {
-          // we get connected log when players join, but no received log
-          connected: () => { console.log("connected") },
-          disconnected: () => { console.log("disconnected") },
-          rejected: () => { console.log("rejected") },
-          received: (res) => {
-            const result = JSON.parse(res.message);
-            switch (result.type) {
-              // case 'player':
-              //   this.setPlayer(res.player)
-              //   break;
-              case 'player-joined':
-                // Who is the device's player??
-                console.log("WE'VE HAVE A PLAYER");
-                // this.setPlayer(result.data)
-                // Add player to lobby, show all players actively in lobby
-                // Once lobby is full, redirect to game
-                // Set game info [cards, teams, etc]
-                break;
-              case 'game-setup':
-                console.log("WE'VE HAVE A GAME");
-                console.log(result);
-                // What is the game res?
-                // this.setGame(result.data)
-                // Set card res in state
-                // Make sure the card res is getting to the gameboard
-                // Set teams
-                // Which teams go first
-                // Who is on the intel side?
-                // Fetch Intel Cheatsheet
-                break;
-              case 'player-hint':
-                // Did a player give a hint?
-                this.setHint(result.data);
-                // What is the hint and how many cards does it relate to?
-                // Render hint to all players
-                // Switch active player to Spy of same team
-                let hintLogs = this.state.hintLogs;
-                hintLogs.push(result);
-                this.setState({ hintLogs });
-                break;
-              case 'player-guess':
-                // Did a player click on a card?
-                this.setGuess(result.data);
-                // Flip card
-                // if this.state.words === guess
-                // Process correct guess
-                // Assign points to correct team
-                // Decrement remaining guesses
-                // See if they are out of guesses
-                // If not, next team's turn
-                // If yes, next guess
-                break;
-              default: console.log('ERROR in Switch');
-            }
 
-            // this.hints = cable.subscriptions.create(
-            //   {
-            //     channel: "GameDataChannel"
-            //   },
-            //   {
-            //     connected: () => {
-            //       console.log("connected");
-            //     },
-            //     disconnected: () => {
-            //       console.log("disconnected");
-            //     },
-            //     rejected: () => {
-            //       console.log("rejected");
-            //     },
-            //     received: data => {
-            //       this.dataSwitch(data);
-            //     },
-            //     create: function(hintContent) {
-            //       this.perform("create", {
-            //         content: "hello"
-            //       });
-            //     }
-            //   }
-            // );
-          }
-        })
-      }
+      this.hints = cable.subscriptions.create(
+        { channel: 'GameDataChannel' },
+        {
+          connected: () => console.log("connected"),
+          disconnected: () => console.log("disconnected"),
+          rejected: () => console.log("rejected"),
+          received: res => this.dataSwitch(JSON.parse(res.message)),
+          create: hintContent => this.perform("create", {content: "hello"})
+        }
+      )
+    }
   };
 
   render() {
+    console.log(this.state.cardData);
     return (
       <div className="App">
         <Header />
@@ -187,7 +110,7 @@ export class App extends Component {
             render={() => <JoinGame handleUserInit={this.handleUserInit} />}
           />
           <Route exact path="/lobby" component={Lobby} />
-          <Route exact path="/game" component={Main} />
+          <Route exact path="/game" component={Main} cardData={this.state.cardData}/>
           <Route component={ErrorScreen} />
           <Route path="/" render={() => <Main token={this.state.token} hintLogs={this.state.hintLogs} />} />
         </Switch>

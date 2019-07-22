@@ -1,7 +1,7 @@
 import React from 'react';
 import {words} from '../../../mock/mockData';
 
-const Board = ({ pType }) => {
+const Board = props => {
   let status = "Active";
   
   return (
@@ -11,13 +11,15 @@ const Board = ({ pType }) => {
         <span className={status}> {status}</span>
       </h2>
       <div className="gameboard">
-        {words.map(w => {
+        {props.data.map(card => {
+          const intelClass = card.type ? card.type : '';
+
           return (
-            <div className="case-file" key={`${w}-file`}>
-              <div className="case-title" key={`${w}-title`}>
-                <p className="word-txt" key={`${w}-txt`}>{w}</p>
+            <article className={`case-file ${intelClass}`} key={`${card}-file`}>
+              <div className="case-title" key={`${card}-title`}>
+                <p className="word-txt" key={`${card}-txt`}>{card}</p>
               </div>
-            </div>
+            </article>
           )
         })}
       </div>
