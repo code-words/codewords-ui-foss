@@ -90,24 +90,26 @@ export class App extends Component {
   createCable = token => {
     if (this.state.token === token) {
       let cable = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
-      console.log(cable)
       this.hints = cable.subscriptions.create({
         channel: 'GameDataChannel'
       }, {
           connected: () => { console.log("connected") },
           disconnected: () => { console.log("disconnected") },
           rejected: () => { console.log("rejected") },
+          hint:(data) => {
+            return this.perform("hint", data);
+          },
           received: (res) => {
             const result = JSON.parse(res.message);
             this.dataSwitch(result);
           }
         })
+
       }
   };
 
   render() {
     console.log('APP State: ', this.state);
-
     return (
       <div className="App">
         <Header />
