@@ -52,25 +52,42 @@ class AgentInput extends Component {
   }
 
   render() {
+    let page; 
+
+    if (props.isActive) {
+      page =
+    }
+
     return (
       <form className="AgentInput">
-        <input className="num-input" name="relWords" type="number" value={this.state.relWords} onChange={this.handleChange} />
+        <input
+          className="num-input"
+          name="relWords"
+          type="number"
+          value={this.state.relWords}
+          onChange={this.handleChange}
+          disabled={!props.isActive}
+        />
         <h1>Chat</h1>
-            <ul className='chat-logs'>
-              { this.renderChatLog() }
-            </ul>
-            <input
-              onKeyPress={ (e) => this.handleChatInputKeyPress(e) }
-              value={ this.state.hint }
-              onChange={ (e) => this.updateCurrentChatMessage(e) }
-              type='text'
-              placeholder='Enter your message...'
-              className='chat-input' />
-            <button
-              onClick={ (e) => this.handleSendEvent(e) }
-              className='send'>
-              Send
-            </button>
+        <ul className='chat-logs'>
+          { this.renderChatLog() }
+        </ul>
+        <input
+          onKeyPress={ (e) => this.handleChatInputKeyPress(e) }
+          value={ this.state.hint }
+          onChange={ (e) => this.updateCurrentChatMessage(e) }
+          type='text'
+          placeholder='Enter your message...'
+          className='chat-input'
+          disabled={!props.isActive}
+        />
+        <button
+          onClick={ (e) => this.handleSendEvent(e) }
+          className='send'
+          disabled={!props.isActive}
+        >
+          Send
+        </button>
       
       </form>
     )
