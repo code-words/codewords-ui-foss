@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 class AgentInput extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       hint: '',
       relWords: 0,
@@ -60,7 +60,7 @@ class AgentInput extends Component {
           type="number"
           value={this.state.relWords}
           onChange={this.handleChange}
-          disabled={!props.isActive}
+          disabled={!this.props.isActive}
         />
         <h1>Chat</h1>
         <ul className='chat-logs'>
@@ -73,12 +73,12 @@ class AgentInput extends Component {
           type='text'
           placeholder='Enter your message...'
           className='chat-input'
-          disabled={!props.isActive}
+          disabled={!this.props.isActive}
         />
         <button
           onClick={ (e) => this.handleSendEvent(e) }
           className='send'
-          disabled={!props.isActive}
+          disabled={!this.props.isActive}
         >
           Send
         </button>
