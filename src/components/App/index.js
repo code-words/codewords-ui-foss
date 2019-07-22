@@ -16,7 +16,8 @@ export class App extends Component {
     this.state = {
       token: "000",
       hintLogs: [],
-      cardData: []
+      cardData: [],
+      cable: {}
     };
   }
 
@@ -30,7 +31,7 @@ export class App extends Component {
     this.setState({ token, user }, () => this.createCable(token));
   };
 
-  updatehintLogs = (data) => {
+  updateHintLogs = (data) => {
     let hintLogs = this.state.hintLogs;
     hintLogs.push(data);
     this.setState({ hintLogs });
@@ -69,6 +70,7 @@ export class App extends Component {
         // What is the hint and how many cards does it relate to?
         // Render hint to all players
         // Switch active player to Spy of same team
+        //This is also where we should callupdateHintLog()
         break;
       case "player-guess":
         // Did a player click on a card?
@@ -104,6 +106,8 @@ export class App extends Component {
             this.dataSwitch(result);
           }
         })
+        this.setState({cable: this.hints})
+        
 
       }
   };
@@ -129,7 +133,7 @@ export class App extends Component {
           <Route exact path="/lobby" component={Lobby} />
           <Route exact path="/game" component={Main} />
           <Route component={ErrorScreen} />
-          <Route path="/" render={() => <Main token={this.state.token} hintLogs={this.state.hintLogs} />} />
+          <Route path="/" render={() => <Main cable = {this.state.cable} token={this.state.token} hintLogs={this.state.hintLogs} />} />
         </Switch>
       </div>
     );
