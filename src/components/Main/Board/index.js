@@ -2,7 +2,7 @@ import React from 'react';
 
 const Board = props => {
   let status = "Active";
-  console.log(props.data)
+  console.log(props)
   
   return (
     <section className="Board">
@@ -11,7 +11,7 @@ const Board = props => {
         <span className={status}> {status}</span>
       </h2>
       <div className="gameboard">
-        {props.data.map(card => {
+        {props.cardData.map(card => {
           const intelClass = card.type ? card.type : '';
 
           return (

@@ -7,7 +7,7 @@ describe('Board', () => {
   let instance;
 
   beforeEach(() => {
-    wrapper = shallow(<Board />);
+    wrapper = shallow(<Board cardData={[{id: 1, word: 'fml'}]}/>);
     instance = wrapper.instance();
 
   })
