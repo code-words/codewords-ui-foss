@@ -23,8 +23,8 @@ export class App extends Component {
 
   handleUserInit = (result) => {
     const { id, name, token } = result;
+    localStorage.setItem("Token", token);
     const user = { id, name, token }
-
     if (result.invite_code)
       this.setState({ invite_code: result.invite_code });
 
