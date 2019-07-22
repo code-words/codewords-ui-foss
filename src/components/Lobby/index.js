@@ -1,11 +1,7 @@
 import React from 'react';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
-const Lobby = () => {
-  let players = [
-    {name: 'justin', team: 'blue'},
-    {name: 'LyNne', team: 'red'}
-  ];
-
+const Lobby = ({ players, inviteCode }) => {
   const renderJoinedPlayers = () => {
     let agents = [];
 
@@ -45,6 +41,20 @@ const Lobby = () => {
 
     return dots.map(d => <span id={d}>-</span> )
   }
+
+  const renderCode = () => {
+    return (
+      <p>
+        Invite Code:
+        <CopyToClipboard text={inviteCode}>
+          <code>
+            {inviteCode}
+            <i className="far fa-copy" />
+          </code>
+        </CopyToClipboard>
+      </p>
+    );
+  }
   
   return (
     <div className="backdrop">
@@ -57,7 +67,7 @@ const Lobby = () => {
           <h3> 
             Please wait for {players.length} out of players 4
           </h3>
-          
+          {inviteCode && renderCode()}
         </div>
         <section className="roster">
           <h4>Current Agents:</h4>
