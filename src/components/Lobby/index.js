@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Lobby = () => {
   let players = [
@@ -63,6 +64,7 @@ const Lobby = () => {
           <h4>Current Agents:</h4>
           {renderJoinedPlayers()}
         </section>
+        <Link to='/game'>Go to Game</Link>
       </section>
     </div>
   )

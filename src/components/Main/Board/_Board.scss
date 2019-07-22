@@ -30,6 +30,22 @@
   width: 130px;
   border-radius: 5px;
   background: $intel-base;
+
+  &.red {
+    background: red;
+  }
+  
+    &.blue {
+    background: blue;
+  }
+
+    &.bystander {
+    background: yellow;
+  }
+
+    &.assassin {
+    background: gray;
+  }
 }
 
 .case-title {

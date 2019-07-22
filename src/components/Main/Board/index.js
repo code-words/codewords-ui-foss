@@ -2,7 +2,6 @@ import React from 'react';
 
 const Board = props => {
   let status = "Active";
-  console.log(props)
   
   return (
     <section className="Board">
@@ -15,9 +14,9 @@ const Board = props => {
           const intelClass = card.type ? card.type : '';
 
           return (
-            <article className={`case-file ${intelClass}`} key={`${card}-file`}>
-              <div className="case-title" key={`${card}-title`}>
-                <p className="word-txt" key={`${card}-txt`}>{card}</p>
+            <article className={`case-file ${intelClass}`} key={`${card.word}-file`}>
+              <div className="case-title" key={`${card.word}-title`}>
+                <p className="word-txt" key={`${card.word}-txt`}>{card.word}</p>
               </div>
             </article>
           )
