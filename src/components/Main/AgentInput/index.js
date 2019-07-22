@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import App from '../../App'
-
 
 class AgentInput extends Component {
   constructor() {
@@ -8,7 +6,6 @@ class AgentInput extends Component {
     this.state = {
       hint: '',
       relWords: 0,
-        currentChatMessage: '',
         hintLogs: []
     }
   }
@@ -23,9 +20,9 @@ class AgentInput extends Component {
   handleSendEvent(e) {
     console.log("sending")
     e.preventDefault();
-    App.cable.subscriptions.subscriptions[0].speak({ message: this.state.currentChatMessage });
+    this.props.cable.hint({ message: this.state.hint });
       this.setState({
-      currentChatMessage: ''
+      hint: ''
     });
   }
 
@@ -45,7 +42,7 @@ class AgentInput extends Component {
 
   updateCurrentChatMessage({target}) {
       this.setState({
-        currentChatMessage: target.value
+        hint: target.value
       });
   }
 
@@ -64,7 +61,7 @@ class AgentInput extends Component {
             </ul>
             <input
               onKeyPress={ (e) => this.handleChatInputKeyPress(e) }
-              value={ this.state.currentChatMessage }
+              value={ this.state.hint }
               onChange={ (e) => this.updateCurrentChatMessage(e) }
               type='text'
               placeholder='Enter your message...'

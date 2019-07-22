@@ -19,20 +19,21 @@ export class App extends Component {
       playerRoster: [],
       hintLogs: [],
       cardData: [],
+      cable: {},
       isLobbyFull: false
     };
   }
 
   handleUserInit = (result) => {
     const { id, name, token } = result;
-    const user = { id, name, token };
-
-    if (result.invite_code) this.setState({ invite_code: result.invite_code });
-
+    localStorage.setItem("Token", token);
+    const user = { id, name, token }
+    if (result.invite_code)
+      this.setState({ invite_code: result.invite_code });
     this.setState({ user }, () => this.createCable(token));
   };
 
-  updatehintLogs = (data) => {
+  updateHintLogs = (data) => {
     let hintLogs = this.state.hintLogs;
     hintLogs.push(data);
     this.setState({ hintLogs });
@@ -83,6 +84,7 @@ export class App extends Component {
         // What is the hint and how many cards does it relate to?
         // Render hint to all players
         // Switch active player to Spy of same team
+        //This is also where we should callupdateHintLog()
         break;
       case "player-guess":
         // Did a player click on a card?
@@ -111,15 +113,13 @@ export class App extends Component {
           connected: () => console.log("connected"),
           disconnected: () => console.log("disconnected"),
           rejected: () => console.log("rejected"),
-          hint: (data) => {
-            return this.perform("hint", data);
-          },
+          hint: (data) => this.perform("hint", data),
           received: res => this.dataSwitch(JSON.parse(res.message)),
           sendHint: hint => this.perform("send_hint", { content: hint }),
           sendGuess: guess => this.perform("send_hint", { content: guess })
-        }
-      )
-    }
+        this.setState({cable: this.hints})
+      }
+      }
   };
 
   render() {
@@ -150,7 +150,9 @@ export class App extends Component {
             hintLogs={this.state.hintLogs}
             cardData= { this.state.cardData }/>} />
           <Route component={ErrorScreen} />
+
           {/* <Route path="/" render={() => <Main
+          cable = {this.state.cable}
             token={this.state.user.token}
             hintLogs={this.state.hintLogs}
             cardData={this.state.cardData}
