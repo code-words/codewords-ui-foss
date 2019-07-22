@@ -18,7 +18,8 @@ export class App extends Component {
       invite_code: '',
       playerRoster: [],
       hintLogs: [],
-      cardData: []
+      cardData: [],
+      isLobbyFull: false
     };
   }
 
@@ -40,7 +41,10 @@ export class App extends Component {
   setPlayer = (data) => {
     const { playerRoster } = data;
     console.log('The Deets',data);
-    this.setState({ playerRoster })
+    this.setState({ playerRoster }, () =>{
+      if (this.state.playerRoster.length === 4) {
+        this.setState({ isLobbyFull: true })
+      }})
   };
 
   setGame = async data => {
@@ -137,14 +141,18 @@ export class App extends Component {
           <Route exact path="/lobby" render={() => <Lobby 
             players={this.state.playerRoster} 
             inviteCode={this.state.invite_code}
+            isLobbyFull={this.state.isLobbyFull}
           />} />
-          <Route exact path="/game" component={() => <Main cardData= { this.state.cardData }/>} />
+          <Route exact path="/game" component={() => <Main 
+            token={this.state.user.token}
+            hintLogs={this.state.hintLogs}
+            cardData= { this.state.cardData }/>} />
           <Route component={ErrorScreen} />
-          <Route path="/" render={() => <Main
+          {/* <Route path="/" render={() => <Main
             token={this.state.user.token}
             hintLogs={this.state.hintLogs}
             cardData={this.state.cardData}
-          />} />
+          />} /> */}
         </Switch>
       </div>
     );

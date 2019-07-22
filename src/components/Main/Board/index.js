@@ -3,6 +3,8 @@ import {words} from '../../../mock/mockData';
 
 const Board = props => {
   let status = "Active";
+
+  console.log('Board Props', props)
   
   return (
     <section className="Board">
@@ -11,7 +13,7 @@ const Board = props => {
         <span className={status}> {status}</span>
       </h2>
       <div className="gameboard">
-        {props.data.map(card => {
+        {props.data && props.data.map(card => {
           const intelClass = card.type ? card.type : '';
 
           return (
