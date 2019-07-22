@@ -101,14 +101,15 @@ export class App extends Component {
     if (this.state.user.token === token) {
       let cable = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
 
-      this.hints = cable.subscriptions.create(
+      this.cable = cable.subscriptions.create(
         { channel: 'GameDataChannel' },
         {
           connected: () => console.log("connected"),
           disconnected: () => console.log("disconnected"),
           rejected: () => console.log("rejected"),
           received: res => this.dataSwitch(JSON.parse(res.message)),
-          create: hintContent => this.perform("create", {content: "hello"})
+          sendHint: hint => this.perform("send_hint", { content: hint }),
+          sendGuess: guess => this.perform("send_hint", { content: guess })
         }
       )
     }
