@@ -21,8 +21,22 @@ export class App extends Component {
       cardData: [],
       cable: {},
       isLobbyFull: false,
-      currentPlayerID: null
+      currentPlayerID: null,
+      isActive: false
     };
+  }
+
+  determinePlayer = () => {
+    const { currentPlayerID, user } = this.state;
+    if (currentPlayerID && currentPlayerID === user.id) {
+      console.log(`It's me`);
+      return true;
+    } else {
+      if(user.id)
+        console.log('Active', currentPlayerID, 'User:', user.id);
+
+      return false;
+    }
   }
 
   handleUserInit = (result) => {
@@ -65,6 +79,8 @@ export class App extends Component {
       user: { ...this.state.user, ...user },
       playerRoster: players,
       currentPlayerID: players[0].id
+    }, () => {
+      this.setState({isActive: this.determinePlayer()})
     });
   }
 
@@ -119,8 +135,8 @@ export class App extends Component {
           disconnected: () => console.log("disconnected"),
           rejected: () => console.log("rejected"),
           received: res => this.dataSwitch(JSON.parse(res.message)),
-          sendHint: hint => this.perform("send_hint", { content: hint }),
-          sendGuess: guess => this.perform("send_guess", { content: guess })
+          sendHint: hint => this.cable.perform("send_hint", hint),
+          sendGuess: guess => this.cable.perform("send_guess", { content: guess })
         })
       this.setState({ cable: this.cable })
     }
@@ -153,7 +169,7 @@ export class App extends Component {
             token={this.state.user.token}
             hintLogs={this.state.hintLogs}
             cardData={this.state.cardData}
-            isActive={this.state.user.id === this.state.currentPlayerID}
+            isActive={this.state.isActive}
             cable={this.state.cable}
           />} />
           <Route component={ErrorScreen} />

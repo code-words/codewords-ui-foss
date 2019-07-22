@@ -18,9 +18,9 @@ class AgentInput extends Component {
   }
 
   handleSendEvent(e) {
-    console.log("sending")
+    console.log("sending", this.state.hint);
     e.preventDefault();
-    this.props.cable.hint({ message: this.state.hint });
+    this.props.cable.sendHint({ message: this.state.hint });
       this.setState({
       hint: ''
     });
