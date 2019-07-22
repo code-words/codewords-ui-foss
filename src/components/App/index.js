@@ -49,10 +49,8 @@ export class App extends Component {
     let cardData = cards;
     
     if (user.isIntel) {
-      const res = await fetch(`/api/v1/intel?token=${this.state.user.token}`);
-      console.log(res)
+      const res = await fetch(`http://localhost:3000/api/v1/intel?token=${this.state.user.token}`);
       cardData = await res.json();
-      console.log(cardData)
     } 
 
     this.setState({
