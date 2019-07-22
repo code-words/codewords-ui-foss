@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 class AgentInput extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       hint: '',
       relWords: 0,
@@ -54,23 +54,34 @@ class AgentInput extends Component {
   render() {
     return (
       <form className="AgentInput">
-        <input className="num-input" name="relWords" type="number" value={this.state.relWords} onChange={this.handleChange} />
+        <input
+          className="num-input"
+          name="relWords"
+          type="number"
+          value={this.state.relWords}
+          onChange={this.handleChange}
+          disabled={!this.props.isActive}
+        />
         <h1>Chat</h1>
-            <ul className='chat-logs'>
-              { this.renderChatLog() }
-            </ul>
-            <input
-              onKeyPress={ (e) => this.handleChatInputKeyPress(e) }
-              value={ this.state.hint }
-              onChange={ (e) => this.updateCurrentChatMessage(e) }
-              type='text'
-              placeholder='Enter your message...'
-              className='chat-input' />
-            <button
-              onClick={ (e) => this.handleSendEvent(e) }
-              className='send'>
-              Send
-            </button>
+        <ul className='chat-logs'>
+          { this.renderChatLog() }
+        </ul>
+        <input
+          onKeyPress={ (e) => this.handleChatInputKeyPress(e) }
+          value={ this.state.hint }
+          onChange={ (e) => this.updateCurrentChatMessage(e) }
+          type='text'
+          placeholder='Enter your message...'
+          className='chat-input'
+          disabled={!this.props.isActive}
+        />
+        <button
+          onClick={ (e) => this.handleSendEvent(e) }
+          className='send'
+          disabled={!this.props.isActive}
+        >
+          Send
+        </button>
       
       </form>
     )

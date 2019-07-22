@@ -20,7 +20,8 @@ export class App extends Component {
       hintLogs: [],
       cardData: [],
       cable: {},
-      isLobbyFull: false
+      isLobbyFull: false,
+      currentPlayerID: null
     };
   }
 
@@ -28,8 +29,7 @@ export class App extends Component {
     const { id, name, token } = result;
     localStorage.setItem("Token", token);
     const user = { id, name, token }
-    if (result.invite_code)
-      this.setState({ invite_code: result.invite_code });
+    if (result.invite_code) this.setState({ invite_code: result.invite_code });
     this.setState({ user }, () => this.createCable(token));
   };
 
@@ -42,10 +42,11 @@ export class App extends Component {
   setPlayer = (data) => {
     const { playerRoster } = data;
     console.log('The Deets',data);
-    this.setState({ playerRoster }, () =>{
+    this.setState({ playerRoster }, () => {
       if (this.state.playerRoster.length === 4) {
         this.setState({ isLobbyFull: true })
-      }})
+      }
+    })
   };
 
   setGame = async data => {
@@ -62,7 +63,8 @@ export class App extends Component {
     this.setState({
       cardData,
       user: { ...this.state.user, ...user },
-      playerRoster: players
+      playerRoster: players,
+      currentPlayerID: players[0].id
     });
   }
 
@@ -98,6 +100,9 @@ export class App extends Component {
         // If not, next team's turn
         // If yes, next guess
         break;
+      case 'board-update':
+        console.log('BOARD UPDATED');
+        break;
       default:
         console.log("ERROR in Switch");
     }
@@ -113,13 +118,12 @@ export class App extends Component {
           connected: () => console.log("connected"),
           disconnected: () => console.log("disconnected"),
           rejected: () => console.log("rejected"),
-          hint: (data) => this.perform("hint", data),
           received: res => this.dataSwitch(JSON.parse(res.message)),
           sendHint: hint => this.perform("send_hint", { content: hint }),
-          sendGuess: guess => this.perform("send_hint", { content: guess })
-        this.setState({cable: this.hints})
-      }
-      }
+          sendGuess: guess => this.perform("send_guess", { content: guess })
+        })
+      this.setState({ cable: this.cable })
+    }
   };
 
   render() {
@@ -148,7 +152,10 @@ export class App extends Component {
           <Route exact path="/game" component={() => <Main 
             token={this.state.user.token}
             hintLogs={this.state.hintLogs}
-            cardData= { this.state.cardData }/>} />
+            cardData={this.state.cardData}
+            isActive={this.state.user.id === this.state.currentPlayerID}
+            cable={this.state.cable}
+          />} />
           <Route component={ErrorScreen} />
 
           {/* <Route path="/" render={() => <Main

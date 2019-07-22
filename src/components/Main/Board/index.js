@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Board = props => {
-  let status = "Active";
+  const status = props.isActive ? "Active" : "Inactive";
 
   console.log('Board Props', props)
   
@@ -9,7 +9,7 @@ const Board = props => {
     <section className="Board">
       <h2 className="turn-status">
         Agent Status:
-        <span className={status}> {status}</span>
+        <span className={status}>{status}</span>
       </h2>
       <div className="gameboard">
         {props.cardData.map(card => {
