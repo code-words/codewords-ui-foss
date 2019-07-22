@@ -94,62 +94,12 @@ export class App extends Component {
       this.hints = cable.subscriptions.create({
         channel: 'GameDataChannel'
       }, {
-          // we get connected log when players join, but no received log
           connected: () => { console.log("connected") },
           disconnected: () => { console.log("disconnected") },
           rejected: () => { console.log("rejected") },
           received: (res) => {
             const result = JSON.parse(res.message);
             this.dataSwitch(result);
-            // switch (result.type) {
-            //   // case 'player':
-            //   //   this.setPlayer(res.player)
-            //   //   break;
-            //   case 'player-joined':
-            //     // Who is the device's player??
-            //     console.log("WE HAVE A PLAYER");
-            //     this.setPlayer(result);
-            //     // this.setPlayer(result.data)
-            //     // Add player to lobby, show all players actively in lobby
-            //     // Once lobby is full, redirect to game
-            //     // Set game info [cards, teams, etc]
-            //     break;
-            //   case 'game-setup':
-            //     console.log("WE'VE HAVE A GAME");
-            //     console.log(result);
-            //     // What is the game res?
-            //     // this.setGame(result.data)
-            //     // Set card res in state
-            //     // Make sure the card res is getting to the gameboard
-            //     // Set teams
-            //     // Which teams go first
-            //     // Who is on the intel side?
-            //     // Fetch Intel Cheatsheet
-            //     break;
-            //   case 'player-hint':
-            //     // Did a player give a hint?
-            //     this.setHint(result.data);
-            //     // What is the hint and how many cards does it relate to?
-            //     // Render hint to all players
-            //     // Switch active player to Spy of same team
-            //     let hintLogs = this.state.hintLogs;
-            //     hintLogs.push(result);
-            //     this.setState({ hintLogs });
-            //     break;
-            //   case 'player-guess':
-            //     // Did a player click on a card?
-            //     this.setGuess(result.data);
-            //     // Flip card
-            //     // if this.state.words === guess
-            //     // Process correct guess
-            //     // Assign points to correct team
-            //     // Decrement remaining guesses
-            //     // See if they are out of guesses
-            //     // If not, next team's turn
-            //     // If yes, next guess
-            //     break;
-            //   default: console.log('ERROR in Switch');
-            // }
           }
         })
       }
