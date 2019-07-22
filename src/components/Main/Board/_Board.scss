@@ -32,19 +32,23 @@
   background: $intel-base;
 
   &.red {
-    background: red;
+    background: $intel-red;
+    border: 1px solid $intel-red-accent;
   }
   
     &.blue {
-    background: blue;
+    background: $intel-blue;
+    border: 1px solid $intel-blue-accent;
   }
 
     &.bystander {
-    background: yellow;
+    background: $intel-base;
+    border: 1px solid $intel-base-accent;
   }
 
     &.assassin {
-    background: gray;
+    background: $intel-assassin;
+    border: 1px solid $intel-assassin-accent;
   }
 }
 

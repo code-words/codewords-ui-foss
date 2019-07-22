@@ -18,7 +18,8 @@ export class App extends Component {
       invite_code: '',
       playerRoster: [],
       hintLogs: [],
-      cardData: []
+      cardData: [],
+      isLobbyFull: false
     };
   }
 
@@ -40,7 +41,10 @@ export class App extends Component {
   setPlayer = (data) => {
     const { playerRoster } = data;
     console.log('The Deets',data);
-    this.setState({ playerRoster })
+    this.setState({ playerRoster }, () =>{
+      if (this.state.playerRoster.length === 4) {
+        this.setState({ isLobbyFull: true })
+      }})
   };
 
   setGame = async data => {
@@ -107,6 +111,9 @@ export class App extends Component {
           connected: () => console.log("connected"),
           disconnected: () => console.log("disconnected"),
           rejected: () => console.log("rejected"),
+          hint: (data) => {
+            return this.perform("hint", data);
+          },
           received: res => this.dataSwitch(JSON.parse(res.message)),
           sendHint: hint => this.perform("send_hint", { content: hint }),
           sendGuess: guess => this.perform("send_hint", { content: guess })
@@ -116,7 +123,7 @@ export class App extends Component {
   };
 
   render() {
-    console.log(this.state.cardData)
+    console.log('APP State: ', this.state);
     return (
       <div className="App">
         <Header />
@@ -133,14 +140,21 @@ export class App extends Component {
             path="/join"
             render={() => <JoinGame handleUserInit={this.handleUserInit} />}
           />
-          <Route exact path="/lobby" component={Lobby} />
-          <Route exact path="/game" component={() => <Main cardData={ this.state.cardData}/>} />
+          <Route exact path="/lobby" render={() => <Lobby 
+            players={this.state.playerRoster} 
+            inviteCode={this.state.invite_code}
+            isLobbyFull={this.state.isLobbyFull}
+          />} />
+          <Route exact path="/game" component={() => <Main 
+            token={this.state.user.token}
+            hintLogs={this.state.hintLogs}
+            cardData= { this.state.cardData }/>} />
           <Route component={ErrorScreen} />
-          <Route path="/" render={() => <Main
+          {/* <Route path="/" render={() => <Main
             token={this.state.user.token}
             hintLogs={this.state.hintLogs}
             cardData={this.state.cardData}
-          />} />
+          />} /> */}
         </Switch>
       </div>
     );

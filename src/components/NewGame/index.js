@@ -32,7 +32,7 @@ class NewGame extends Component {
   }
 
   render() {
-    let { name, numPlayers, redirect } = this.state;
+    let { name, redirect } = this.state;
     if (redirect) { return <Redirect to='/lobby' /> };
 
     return (

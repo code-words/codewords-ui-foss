@@ -2,6 +2,8 @@ import React from 'react';
 
 const Board = props => {
   let status = "Active";
+
+  console.log('Board Props', props)
   
   return (
     <section className="Board">

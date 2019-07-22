@@ -1,12 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
-const Lobby = () => {
-  let players = [
-    {name: 'justin', team: 'blue'},
-    {name: 'LyNne', team: 'red'}
-  ];
-
+const Lobby = ({ players, inviteCode, isLobbyFull }) => {
   const renderJoinedPlayers = () => {
     let agents = [];
 
@@ -46,6 +42,24 @@ const Lobby = () => {
 
     return dots.map(d => <span id={d}>-</span> )
   }
+
+  const renderCode = () => {
+    return (
+      <p>
+        Invite Code:
+        <CopyToClipboard text={inviteCode}>
+          <code>
+            {inviteCode}
+            <i className="far fa-copy" />
+          </code>
+        </CopyToClipboard>
+      </p>
+    );
+  }
+
+  if (isLobbyFull) {
+    return ( <Redirect to="/game" /> )
+  }
   
   return (
     <div className="backdrop">
@@ -56,15 +70,14 @@ const Lobby = () => {
         </div>
         <div className="Lobby-sub">
           <h3> 
-            Please wait for {players.length} out of players 4
+            Waiting for {4 - players.length} more players
           </h3>
-          
+          {inviteCode && renderCode()}
         </div>
         <section className="roster">
           <h4>Current Agents:</h4>
           {renderJoinedPlayers()}
         </section>
-        <Link to='/game'>Go to Game</Link>
       </section>
     </div>
   )

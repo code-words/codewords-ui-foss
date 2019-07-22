@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import App from '../../App'
 
 
 class AgentInput extends Component {
@@ -14,14 +15,15 @@ class AgentInput extends Component {
 
   handleChange = (e) => {
     const {name, value} = e.target;
-
     name === 'hint'
       ? this.setState({ hint: value })
       : this.setState({ relWords: value })
   }
 
   handleSendEvent(e) {
+    console.log("sending")
     e.preventDefault();
+    App.cable.subscriptions.subscriptions[0].speak({ message: this.state.currentChatMessage });
       this.setState({
       currentChatMessage: ''
     });
@@ -35,9 +37,10 @@ class AgentInput extends Component {
     //       <span className='chat-created-at'>{ chat.created_at }</span>
     //     </li>
     //   );
-    // })}
-    // handleChatInputKeyPress(event) {
-    //   if(event.key === 'Enter') this.handleSendEvent(event);
+    // })
+  }
+    handleChatInputKeyPress(event) {
+      if(event.key === 'Enter') this.handleSendEvent(event);
     }
 
   updateCurrentChatMessage({target}) {
