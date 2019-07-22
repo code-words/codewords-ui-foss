@@ -6,6 +6,7 @@ import Board from './Board';
 import AgentInput from './AgentInput';
 
 const Main = props => {
+  console.log(props.cardData)
   return (
     <main className="Main">
     <ActionCableProvider url={API_WS_ROOT} socket={props.socket}>

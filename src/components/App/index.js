@@ -51,6 +51,7 @@ export class App extends Component {
     if (user.isIntel) {
       const res = await fetch(`http://localhost:3000/api/v1/intel?token=${this.state.user.token}`);
       cardData = await res.json();
+      cardData = cardData.cards;
     } 
 
     this.setState({
@@ -114,6 +115,7 @@ export class App extends Component {
   };
 
   render() {
+    console.log(this.state.cardData)
     return (
       <div className="App">
         <Header />

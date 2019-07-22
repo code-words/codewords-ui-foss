@@ -26,17 +26,18 @@ class AgentInput extends Component {
       currentChatMessage: ''
     });
   }
+
   renderChatLog() {
-    return this.state.hintLogs.map((chat) => {
-      return (
-        <li key={`chat_${chat.id}`}>
-          <span className='chat-message'>{ chat.content }</span>
-          <span className='chat-created-at'>{ chat.created_at }</span>
-        </li>
-      );
-    })}
-    handleChatInputKeyPress(event) {
-      if(event.key === 'Enter') this.handleSendEvent(event);
+    // return this.state.hintLogs.map((chat) => {
+    //   return (
+    //     <li key={`chat_${chat.id}`}>
+    //       <span className='chat-message'>{ chat.content }</span>
+    //       <span className='chat-created-at'>{ chat.created_at }</span>
+    //     </li>
+    //   );
+    // })}
+    // handleChatInputKeyPress(event) {
+    //   if(event.key === 'Enter') this.handleSendEvent(event);
     }
 
   updateCurrentChatMessage({target}) {
