@@ -14,15 +14,21 @@ export class App extends Component {
   constructor() {
     super();
     this.state = {
-      token: "000",
+      user: {},
+      invite_code: '',
+      playerRoster: [],
       hintLogs: [],
-      cardData: [],
-      playerData: {}
+      cardData: []
     };
   }
 
-  handleUserInit = ({ token }) => {
-    this.setState({ token }, () => this.createCable(token));
+  handleUserInit = (result) => {
+    const { id, name, token } = result;
+    const user = { id, name, token };
+
+    if (result.invite_code) this.setState({ invite_code: result.invite_code });
+
+    this.setState({ user }, () => this.createCable(token));
   };
 
   updatehintLogs = (data) => {
@@ -31,28 +37,46 @@ export class App extends Component {
     this.setState({ hintLogs });
   };
 
-  dataSwitch = res => {
-    switch (res.type) {
+  setPlayer = (data) => {
+    const { playerRoster } = data;
+    console.log('The Deets',data);
+    this.setState({ playerRoster })
+  };
+
+  setGame = async data => {
+    const { cards, players } = data;
+    const user = players.find(p => p.id === this.state.user.id);
+    let cardData = cards;
+    
+    if (user.isIntel) {
+      const res = await fetch(`/api/v1/intel?token=${this.state.user.token}`);
+      console.log(res)
+      cardData = await res.json();
+      console.log(cardData)
+    } 
+
+    this.setState({
+      cardData,
+      user: { ...this.state.user, ...user },
+      playerRoster: players
+    });
+  }
+
+  dataSwitch = result => {
+    const { type, data } = result;
+
+    switch (type) {
       case "player-joined":
-        this.setState({ playerData: { id: res.data.id}})
-        // this.setPlayer(data);
-        console.log("WE'VE HAVE A PLAYER");
-        console.log(res.data.id)
-        // Add player to lobby, show all players actively in lobby
-        // Once lobby is full, redirect to game
+        console.log("WE HAVE A PLAYER");
+        this.setPlayer(data);
         // Set game info [cards, teams, etc]
         break;
       case 'game-setup':
-        console.log(res);
-        const { cards, players } = res.data;
-        const playerData = players.find(p => p.id === this.state.playerData.id);
-        const cardData = cards; //build out w/ condition later to fetch intel 
-
-        this.setState({ cardData, playerData });
+        this.setGame(data);
         break;
       case "player-hint":
         // Did a player give a hint?
-        // this.setHint(res);
+        // this.setHint(data);
         // What is the hint and how many cards does it relate to?
         // Render hint to all players
         // Switch active player to Spy of same team
@@ -75,7 +99,7 @@ export class App extends Component {
   };
 
   createCable = token => {
-    if (this.state.token === token) {
+    if (this.state.user.token === token) {
       let cable = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
 
       this.hints = cable.subscriptions.create(
@@ -92,7 +116,6 @@ export class App extends Component {
   };
 
   render() {
-    console.log(this.state.cardData);
     return (
       <div className="App">
         <Header />
@@ -110,9 +133,13 @@ export class App extends Component {
             render={() => <JoinGame handleUserInit={this.handleUserInit} />}
           />
           <Route exact path="/lobby" component={Lobby} />
-          <Route exact path="/game" component={Main} cardData={this.state.cardData}/>
+          <Route exact path="/game" component={() => <Main cardData= { this.state.cardData }/>} />
           <Route component={ErrorScreen} />
-          <Route path="/" render={() => <Main token={this.state.token} hintLogs={this.state.hintLogs} />} />
+          <Route path="/" render={() => <Main
+            token={this.state.user.token}
+            hintLogs={this.state.hintLogs}
+            cardData={this.state.cardData}
+          />} />
         </Switch>
       </div>
     );

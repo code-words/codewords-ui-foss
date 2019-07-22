@@ -23,7 +23,7 @@ class JoinGame extends Component {
     };
     fetch(`${API_ROOT}/v1/games/${inviteCode}/players`, option)
       .then(response => response.json())
-      .then(result => this.props.handleUserInit(result));
+      .then(result => { this.props.handleUserInit(result) });
 
     this.setState({ redirect: true });
   }
