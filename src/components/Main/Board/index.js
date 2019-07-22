@@ -1,8 +1,8 @@
 import React from 'react';
-import {words} from '../../../mock/mockData';
 
 const Board = props => {
   let status = "Active";
+  console.log(props.data)
   
   return (
     <section className="Board">
