@@ -1,7 +1,8 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-const Lobby = ({ players, inviteCode }) => {
+const Lobby = ({ players, inviteCode, isLobbyFull }) => {
   const renderJoinedPlayers = () => {
     let agents = [];
 
@@ -54,6 +55,10 @@ const Lobby = ({ players, inviteCode }) => {
         </CopyToClipboard>
       </p>
     );
+  }
+
+  if (isLobbyFull) {
+    return ( <Redirect to="/game" /> )
   }
   
   return (
