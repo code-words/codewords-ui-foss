@@ -70,7 +70,7 @@ const Lobby = ({ players, inviteCode, isLobbyFull }) => {
         </div>
         <div className="Lobby-sub">
           <h3> 
-            Please wait for {players.length} out of players 4
+            Waiting for {4 - players.length} more players
           </h3>
           {inviteCode && renderCode()}
         </div>

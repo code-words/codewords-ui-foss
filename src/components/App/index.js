@@ -55,6 +55,7 @@ export class App extends Component {
     if (user.isIntel) {
       const res = await fetch(`http://localhost:3000/api/v1/intel?token=${this.state.user.token}`);
       cardData = await res.json();
+      cardData = cardData.cards;
     } 
 
     this.setState({
@@ -104,7 +105,7 @@ export class App extends Component {
     if (this.state.user.token === token) {
       let cable = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
 
-      this.hints = cable.subscriptions.create(
+      this.cable = cable.subscriptions.create(
         { channel: 'GameDataChannel' },
         {
           connected: () => console.log("connected"),
@@ -114,7 +115,8 @@ export class App extends Component {
             return this.perform("hint", data);
           },
           received: res => this.dataSwitch(JSON.parse(res.message)),
-          create: hintContent => this.perform("create", {content: "hello"})
+          sendHint: hint => this.perform("send_hint", { content: hint }),
+          sendGuess: guess => this.perform("send_hint", { content: guess })
         }
       )
     }
