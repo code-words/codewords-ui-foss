@@ -55,7 +55,7 @@ export class App extends Component {
     } 
 
     this.setState({
-      cardData: cardData,
+      cardData,
       user: { ...this.state.user, ...user },
       playerRoster: players
     });
