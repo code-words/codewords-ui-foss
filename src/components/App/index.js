@@ -132,7 +132,10 @@ export class App extends Component {
             path="/join"
             render={() => <JoinGame handleUserInit={this.handleUserInit} />}
           />
-          <Route exact path="/lobby" component={Lobby} />
+          <Route exact path="/lobby" render={() => <Lobby 
+            players={this.state.playerRoster} 
+            inviteCode={this.state.invite_code}
+          />} />
           <Route exact path="/game" component={() => <Main cardData= { this.state.cardData }/>} />
           <Route component={ErrorScreen} />
           <Route path="/" render={() => <Main
