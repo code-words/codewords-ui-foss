@@ -20,8 +20,14 @@ export class App extends Component {
     };
   }
 
-  handleUserInit = ({ token }) => {
-    this.setState({ token }, () => this.createCable(token));
+  handleUserInit = (result) => {
+    const { id, name, token } = result;
+    const user = { id, name, token }
+
+    if (result.invite_code)
+      this.setState({ invite_code: result.invite_code });
+
+    this.setState({ token, user }, () => this.createCable(token));
   };
 
   updatehintLogs = (data) => {
@@ -30,23 +36,26 @@ export class App extends Component {
     this.setState({ hintLogs });
   };
 
+  setPlayer = (data) => {
+    const { playerRoster } = data;
+    console.log('The Deets',data);
+    this.setState({ playerRoster })
+  };
 
-  dataSwitch = res => {
-    let data = res.data;
-    switch (data) {
-      // case 'player':
-      //   this.setPlayer(res.player)
-      //   break;
+  dataSwitch = (result) => {
+    const { type, data } = result;
+
+    switch (type) {
       case "player-joined":
-        // Who is the device's player??
+        console.log("WE HAVE A PLAYER");
         this.setPlayer(data);
-        // Add player to lobby, show all players actively in lobby
-        // Once lobby is full, redirect to game
         // Set game info [cards, teams, etc]
         break;
       case "game-setup":
         // What is the game res?
-        this.setGame(data);
+        console.log("WE HAVE A GAME");
+        console.log(data);
+        //** this.setGame(data);
         // Set card res in state
         // Make sure the card res is getting to the gameboard
         // Set teams
@@ -56,7 +65,7 @@ export class App extends Component {
         break;
       case "player-hint":
         // Did a player give a hint?
-        this.setHint(data);
+        // this.setHint(data);
         // What is the hint and how many cards does it relate to?
         // Render hint to all players
         // Switch active player to Spy of same team
@@ -91,85 +100,64 @@ export class App extends Component {
           rejected: () => { console.log("rejected") },
           received: (res) => {
             const result = JSON.parse(res.message);
-            switch (result.type) {
-              // case 'player':
-              //   this.setPlayer(res.player)
-              //   break;
-              case 'player-joined':
-                // Who is the device's player??
-                console.log("WE'VE HAVE A PLAYER");
-                // this.setPlayer(result.data)
-                // Add player to lobby, show all players actively in lobby
-                // Once lobby is full, redirect to game
-                // Set game info [cards, teams, etc]
-                break;
-              case 'game-setup':
-                console.log("WE'VE HAVE A GAME");
-                console.log(result);
-                // What is the game res?
-                // this.setGame(result.data)
-                // Set card res in state
-                // Make sure the card res is getting to the gameboard
-                // Set teams
-                // Which teams go first
-                // Who is on the intel side?
-                // Fetch Intel Cheatsheet
-                break;
-              case 'player-hint':
-                // Did a player give a hint?
-                this.setHint(result.data);
-                // What is the hint and how many cards does it relate to?
-                // Render hint to all players
-                // Switch active player to Spy of same team
-                let hintLogs = this.state.hintLogs;
-                hintLogs.push(result);
-                this.setState({ hintLogs });
-                break;
-              case 'player-guess':
-                // Did a player click on a card?
-                this.setGuess(result.data);
-                // Flip card
-                // if this.state.words === guess
-                // Process correct guess
-                // Assign points to correct team
-                // Decrement remaining guesses
-                // See if they are out of guesses
-                // If not, next team's turn
-                // If yes, next guess
-                break;
-              default: console.log('ERROR in Switch');
-            }
-
-            // this.hints = cable.subscriptions.create(
-            //   {
-            //     channel: "GameDataChannel"
-            //   },
-            //   {
-            //     connected: () => {
-            //       console.log("connected");
-            //     },
-            //     disconnected: () => {
-            //       console.log("disconnected");
-            //     },
-            //     rejected: () => {
-            //       console.log("rejected");
-            //     },
-            //     received: data => {
-            //       this.dataSwitch(data);
-            //     },
-            //     create: function(hintContent) {
-            //       this.perform("create", {
-            //         content: "hello"
-            //       });
-            //     }
-            //   }
-            // );
+            this.dataSwitch(result);
+            // switch (result.type) {
+            //   // case 'player':
+            //   //   this.setPlayer(res.player)
+            //   //   break;
+            //   case 'player-joined':
+            //     // Who is the device's player??
+            //     console.log("WE HAVE A PLAYER");
+            //     this.setPlayer(result);
+            //     // this.setPlayer(result.data)
+            //     // Add player to lobby, show all players actively in lobby
+            //     // Once lobby is full, redirect to game
+            //     // Set game info [cards, teams, etc]
+            //     break;
+            //   case 'game-setup':
+            //     console.log("WE'VE HAVE A GAME");
+            //     console.log(result);
+            //     // What is the game res?
+            //     // this.setGame(result.data)
+            //     // Set card res in state
+            //     // Make sure the card res is getting to the gameboard
+            //     // Set teams
+            //     // Which teams go first
+            //     // Who is on the intel side?
+            //     // Fetch Intel Cheatsheet
+            //     break;
+            //   case 'player-hint':
+            //     // Did a player give a hint?
+            //     this.setHint(result.data);
+            //     // What is the hint and how many cards does it relate to?
+            //     // Render hint to all players
+            //     // Switch active player to Spy of same team
+            //     let hintLogs = this.state.hintLogs;
+            //     hintLogs.push(result);
+            //     this.setState({ hintLogs });
+            //     break;
+            //   case 'player-guess':
+            //     // Did a player click on a card?
+            //     this.setGuess(result.data);
+            //     // Flip card
+            //     // if this.state.words === guess
+            //     // Process correct guess
+            //     // Assign points to correct team
+            //     // Decrement remaining guesses
+            //     // See if they are out of guesses
+            //     // If not, next team's turn
+            //     // If yes, next guess
+            //     break;
+            //   default: console.log('ERROR in Switch');
+            // }
           }
         })
       }
   };
 
   render() {
+    console.log('APP State: ', this.state);
+
     return (
       <div className="App">
         <Header />
