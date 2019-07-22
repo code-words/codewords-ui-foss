@@ -106,6 +106,9 @@ export class App extends Component {
           connected: () => console.log("connected"),
           disconnected: () => console.log("disconnected"),
           rejected: () => console.log("rejected"),
+          hint: (data) => {
+            return this.perform("hint", data);
+          },
           received: res => this.dataSwitch(JSON.parse(res.message)),
           create: hintContent => this.perform("create", {content: "hello"})
         }
@@ -114,6 +117,7 @@ export class App extends Component {
   };
 
   render() {
+    console.log('APP State: ', this.state);
     return (
       <div className="App">
         <Header />
