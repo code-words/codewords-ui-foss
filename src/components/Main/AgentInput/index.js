@@ -52,12 +52,6 @@ class AgentInput extends Component {
   }
 
   render() {
-    let page; 
-
-    if (props.isActive) {
-      page =
-    }
-
     return (
       <form className="AgentInput">
         <input
