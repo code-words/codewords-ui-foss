@@ -11,7 +11,7 @@ class Card extends React.Component {
   handleClick = e => {
     this.setState({ flipped: !this.state.flipped })
     console.log(e.target)
-    this.props.sendGuess({ id: e.target.id });
+    this.props.sendGuess({ id: e.currentTarget.id });
 	};
 
 	render() {

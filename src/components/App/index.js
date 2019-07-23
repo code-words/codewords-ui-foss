@@ -26,19 +26,6 @@ export class App extends Component {
     };
   }
 
-  // determinePlayer = () => {
-  //   const { currentPlayerID, user } = this.state;
-  //   if (currentPlayerID && currentPlayerID === user.id) {
-  //     console.log(`It's me`);
-  //     return true;
-  //   } else {
-  //     if(user.id)
-  //       console.log('Active', currentPlayerID, 'User:', user.id);
-
-  //     return false;
-  //   }
-  // }
-
   handleUserInit = result => {
     const { id, name, token } = result;
     localStorage.setItem("Token", token);
