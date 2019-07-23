@@ -5,7 +5,7 @@ class AgentInput extends Component {
     super(props)
     this.state = {
       hintWord: '',
-      numCards: 0,
+      numCards: 1,
       hintLogs: []
     }
   }
@@ -27,7 +27,7 @@ class AgentInput extends Component {
 
     this.props.cable.sendHint(hint);
 
-    this.setState({ hint: '' });
+    this.setState({ hintWord: '',  });
   }
 
   renderChatLog() {
@@ -71,7 +71,7 @@ class AgentInput extends Component {
           className="num-input"
           name="numCards"
           type="number"
-          value={this.state.relWords}
+          value={this.state.numCards}
           onChange={this.handleChange}
           disabled={!this.props.isActive}
         />
