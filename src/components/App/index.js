@@ -16,7 +16,7 @@ export class App extends Component {
 		this.state = {
 			user: {},
 			invite_code: '',
-      players: [],
+      playerRoster: [],
 			hintLogs: [],
 			cardData: [],
 			cable: {},
@@ -129,7 +129,6 @@ export class App extends Component {
 	};
 
 	render() {
-		console.log('APP State: ', this.state);
 		return (
 			<div className="App">
 				<Header />
@@ -159,7 +158,7 @@ export class App extends Component {
 								cardData={this.state.cardData}
 								isActive={this.state.user.id === this.state.currentPlayerID}
 								cable={this.state.cable}
-								players={this.state.players}
+								players={this.state.playerRoster}
 								sendGuess={this.testFunc}
 							/>
 						)}
