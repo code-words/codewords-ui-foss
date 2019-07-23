@@ -26,20 +26,20 @@ export class App extends Component {
     };
   }
 
-  determinePlayer = () => {
-    const { currentPlayerID, user } = this.state;
-    if (currentPlayerID && currentPlayerID === user.id) {
-      console.log(`It's me`);
-      return true;
-    } else {
-      if(user.id)
-        console.log('Active', currentPlayerID, 'User:', user.id);
+  // determinePlayer = () => {
+  //   const { currentPlayerID, user } = this.state;
+  //   if (currentPlayerID && currentPlayerID === user.id) {
+  //     console.log(`It's me`);
+  //     return true;
+  //   } else {
+  //     if(user.id)
+  //       console.log('Active', currentPlayerID, 'User:', user.id);
 
-      return false;
-    }
-  }
+  //     return false;
+  //   }
+  // }
 
-  handleUserInit = (result) => {
+  handleUserInit = result => {
     const { id, name, token } = result;
     localStorage.setItem("Token", token);
     const user = { id, name, token }
@@ -47,15 +47,14 @@ export class App extends Component {
     this.setState({ user }, () => this.createCable(token));
   };
 
-  updateHintLogs = (data) => {
+  updateHintLogs = data => {
     let hintLogs = this.state.hintLogs;
     hintLogs.push(data);
     this.setState({ hintLogs });
   };
 
-  setPlayer = (data) => {
+  setPlayer = data => {
     const { playerRoster } = data;
-    console.log('The Deets',data);
     this.setState({ playerRoster }, () => {
       if (this.state.playerRoster.length === 4) {
         this.setState({ isLobbyFull: true })
@@ -64,7 +63,8 @@ export class App extends Component {
   };
 
   setGame = async data => {
-    const { cards, players } = data;
+    console.log('game data: ', data)
+    const { cards, players, firstPlayerId } = data;
 		const user = players.find(p => p.id === this.state.user.id);
 		let cardData = cards;
 
@@ -76,10 +76,10 @@ export class App extends Component {
 
     this.setState({
       playerRoster: players,
-      currentPlayerID: players[0].id,
+      currentPlayerID: firstPlayerId,
 			cardData,
 			user: { ...this.state.user, ...user }
-    }, () => this.setState({isActive: this.determinePlayer()}));
+    });
 	};
 
 	dataSwitch = result => {
@@ -88,12 +88,12 @@ export class App extends Component {
 		switch (type) {
 			case 'player-joined':
 				this.setPlayer(data);
-				// Set game info [cards, teams, etc]
 				break;
 			case 'game-setup':
 				this.setGame(data);
 				break;
-			case 'player-hint':
+      case 'player-hint':
+        console.log('HINT GIVEN');
 				// Did a player give a hint?
 				// this.setHint(data);
 				// What is the hint and how many cards does it relate to?
@@ -109,7 +109,10 @@ export class App extends Component {
 
 				cardData[cardIdx] = { ...cardData[cardIdx], ...card };
 				this.setState({ cardData, currentPlayer, remainingAttempts });
-				break;
+        break;
+      case 'illegal-action':
+        console.log(data)
+        break;
 			default:
 				console.log('ERROR in Switch');
 		}
@@ -136,11 +139,6 @@ export class App extends Component {
 			);
 			this.setState({ cable: this.cable });
 		}
-	};
-
-	testFunc = id => {
-		console.log('oh hi');
-		this.cable.sendGuess({ id });
 	};
 
 	render() {
@@ -181,7 +179,7 @@ export class App extends Component {
 								isActive={this.state.user.id === this.state.currentPlayerID}
 								cable={this.state.cable}
 								players={this.state.playerRoster}
-								sendGuess={this.testFunc}
+								sendGuess={this.cable.sendGuess}
 							/>
 						)}
 					/>
