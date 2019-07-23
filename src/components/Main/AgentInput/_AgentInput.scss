@@ -1,15 +1,48 @@
 .AgentInput {
   display: flex;
+  flex-direction: column;
   align-items: center;
-}
+  background: rgba(255, 255, 255, 0.242);
+  padding: 25px 15px;
+  margin: 10px 30px;
+  width: 95%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px ridge $player-active;
 
-input {
-  height: 34px;
-  padding-left: 5px;
-  border-radius: 5px;
-}
+  input, button {
+    height: 30px;
+    padding-left: 5px;
+    margin-right: 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
 
-.num-input {
-  margin-top: 16px;
-  width: 30px;
+  .send-btn {
+    padding: 5px 25px;
+    font-size: 18px;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    text-transform: uppercase;
+
+    &:hover {
+      background: $player-active;
+    }
+  }
+  
+  .num-input {
+    width: 38px;
+  }
+  
+  .hint-entries {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    label {
+      padding-right: 5px;
+      font-size: 28px;
+    }
+  }
 }

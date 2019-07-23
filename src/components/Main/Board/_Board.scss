@@ -30,6 +30,8 @@
   width: 130px;
   border-radius: 5px;
   background: $intel-base;
+  border: 1.5px inset silver;
+  box-sizing: border-box;
 }
 
 .Active {

@@ -6,7 +6,7 @@ import Board from './Board';
 import AgentInput from './AgentInput';
 
 const Main = props => {
-	const form = !props.isActive ? null : (
+	const form = !props.isActive || !props.isIntel ? null : (
 		<AgentInput websocket={props.websocket} hintLogs={props.hintLogs} cable={props.cable} isActive={props.isActive} />
   );
 

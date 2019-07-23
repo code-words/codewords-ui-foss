@@ -21,7 +21,12 @@ export class App extends Component {
       cardData: [],
       cable: {},
       isLobbyFull: false,
-      currentPlayerID: null
+      currentPlayerId: null,
+      remainingAttempts: null,
+      scores: {
+        blueTeam: 0,
+        redTeam: 0
+      }
     };
   }
 
@@ -62,7 +67,7 @@ export class App extends Component {
 
     this.setState({
       playerRoster: players,
-      currentPlayerID: firstPlayerId,
+      currentPlayerId: firstPlayerId,
 			cardData,
 			user: { ...this.state.user, ...user }
     });
@@ -79,23 +84,24 @@ export class App extends Component {
 			case 'game-setup':
 				this.setGame(data);
 				break;
-      case 'player-hint':
+      case 'hint-provided':
         console.log('HINT GIVEN');
 				// Did a player give a hint?
 				// this.setHint(data);
 				// What is the hint and how many cards does it relate to?
 				// Render hint to all players
 				// Switch active player to Spy of same team
-				//This is also where we should callupdateHintLog()
+        //This is also where we should callupdateHintLog()
+        this.setState({currentPlayerId: data.currentPlayerId})
 				break;
 			case 'board-update':
 				console.log('BOARD UPDATED');
-				const { card, currentPlayer, remainingAttempts } = data;
+				const { card, currentPlayerId, remainingAttempts } = data;
 				let cardData = [ ...this.state.cardData ];
 				const cardIdx = cardData.findIndex(i => i.id === card.id);
 
 				cardData[cardIdx] = { ...cardData[cardIdx], ...card };
-				this.setState({ cardData, currentPlayer, remainingAttempts });
+				this.setState({ cardData, currentPlayerId, remainingAttempts });
         break;
       case 'illegal-action':
         console.log(data)
@@ -116,7 +122,6 @@ export class App extends Component {
 					disconnected: () => console.log('disconnected'),
 					rejected: () => console.log('rejected'),
 					received: res => this.dataSwitch(JSON.parse(res.message)),
-					// args below should be obj, even if single key-value pair
 					sendHint: hint => {
             console.log('Hint MF', hint)
             this.cable.perform('send_hint', hint)
@@ -165,8 +170,9 @@ export class App extends Component {
 							<Main
 								token={this.state.user.token}
 								hintLogs={this.state.hintLogs}
-								cardData={this.state.cardData}
-								isActive={this.state.user.id === this.state.currentPlayerID}
+                cardData={this.state.cardData}
+                isIntel={this.state.user.isIntel}
+								isActive={this.state.user.id === this.state.currentPlayerId}
 								cable={this.state.cable}
 								players={this.state.playerRoster}
 								sendGuess={this.cable.sendGuess}
