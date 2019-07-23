@@ -83,7 +83,8 @@ export class App extends Component {
 	};
 
 	dataSwitch = result => {
-		const { type, data } = result;
+    const { type, data } = result;
+    console.log(type,':' ,data)
 
 		switch (type) {
 			case 'player-joined':
