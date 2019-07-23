@@ -130,9 +130,12 @@ export class App extends Component {
 					rejected: () => console.log('rejected'),
 					received: res => this.dataSwitch(JSON.parse(res.message)),
 					// args below should be obj, even if single key-value pair
-					sendHint: hint => this.cable.perform('send_hint', hint),
+					sendHint: hint => {
+            console.log('Hint MF', hint)
+            this.cable.perform('send_hint', hint)
+          },
 					sendGuess: guess => {
-						console.log('HIT CABLE METHOD GUESS');
+						console.log('HIT CABLE METHOD GUESS', guess);
 						this.cable.perform('send_guess', guess);
 					}
 				}

@@ -4,26 +4,30 @@ class AgentInput extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      hint: '',
-      relWords: 0,
-        hintLogs: []
+      hintWord: '',
+      numCards: 0,
+      hintLogs: []
     }
   }
 
   handleChange = (e) => {
     const {name, value} = e.target;
-    name === 'hint'
-      ? this.setState({ hint: value })
-      : this.setState({ relWords: value })
+
+    this.setState({ [name]:value });
+
+    // name === 'hint'
+    //   ? this.setState({ hint: value })
+    //   : this.setState({ relWords: value })
   }
 
   handleSendEvent(e) {
-    console.log("sending", this.state.hint);
     e.preventDefault();
-    this.props.cable.sendHint({ message: this.state.hint });
-      this.setState({
-      hint: ''
-    });
+    const { hintWord, numCards } = this.state;
+    let hint = { hintWord, numCards };
+
+    this.props.cable.sendHint(hint);
+
+    this.setState({ hint: '' });
   }
 
   renderChatLog() {
@@ -36,15 +40,16 @@ class AgentInput extends Component {
     //   );
     // })
   }
-    handleChatInputKeyPress(event) {
-      if(event.key === 'Enter') this.handleSendEvent(event);
-    }
 
-  updateCurrentChatMessage({target}) {
-      this.setState({
-        hint: target.value
-      });
+  handleChatInputKeyPress(event) {
+    if(event.key === 'Enter') this.handleSendEvent(event);
   }
+
+  // updateCurrentChatMessage({target}) {
+  //     this.setState({
+  //       hint: target.value
+  //     });
+  // }
 
   componentDidMount = () => {
     let hintLogs = this.props.hintLogs;
@@ -52,26 +57,31 @@ class AgentInput extends Component {
   }
 
   render() {
+    console.log('Agent State', this.state)
     return (
-      <form className="AgentInput">
-        <input
-          className="num-input"
-          name="relWords"
-          type="number"
-          value={this.state.relWords}
-          onChange={this.handleChange}
-          disabled={!this.props.isActive}
-        />
+      <form 
+        className="AgentInput" 
+        onSubmit={(e) => this.handleSendEvent(e)}
+      >
         <h1>Chat</h1>
         <ul className='chat-logs'>
           { this.renderChatLog() }
         </ul>
         <input
+          className="num-input"
+          name="numCards"
+          type="number"
+          value={this.state.relWords}
+          onChange={this.handleChange}
+          disabled={!this.props.isActive}
+        />
+        <input
+          name="hintWord"
           onKeyPress={ (e) => this.handleChatInputKeyPress(e) }
           value={ this.state.hint }
-          onChange={ (e) => this.updateCurrentChatMessage(e) }
+          onChange={ (e) => this.handleChange(e) }
           type='text'
-          placeholder='Enter your message...'
+          placeholder='Enter your hint...'
           className='chat-input'
           disabled={!this.props.isActive}
         />
