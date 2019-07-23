@@ -18,8 +18,8 @@ const Main = props => {
 	};
 
 	const scores = {
-		blue: props.scores.blueScore || 0,
-		red: props.scores.redScore || 0
+		blue: 0,
+		red: 0
 	};
 
 	return (
