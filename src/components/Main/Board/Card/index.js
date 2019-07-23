@@ -24,7 +24,7 @@ class Card extends React.Component {
     //replace next line w/ card.flipped when data is updating
 		const content = this.state.flipped ? (
       <article className="card" key={`${card.word}`} id={card.id}>
-				<img className="card" src={img} />
+				<img className="card" src={img} alt={card.type} />
 			</article>
 		) : (
 			<article
