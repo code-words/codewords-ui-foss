@@ -16,7 +16,7 @@ export class App extends Component {
 		this.state = {
 			user: {},
 			invite_code: '',
-			playerRoster: [],
+      players: [],
 			hintLogs: [],
 			cardData: [],
 			cable: {},
@@ -50,7 +50,7 @@ export class App extends Component {
 	};
 
 	setGame = async data => {
-		const { cards, players } = data;
+    const { cards, players } = data;
 		const user = players.find(p => p.id === this.state.user.id);
 		let cardData = cards;
 
@@ -58,14 +58,16 @@ export class App extends Component {
 			const res = await fetch(`http://localhost:3000/api/v1/intel?token=${this.state.user.token}`);
 			cardData = await res.json();
 			cardData = cardData.cards;
-		}
+    }
+    
+    console.log(players)
 
-		this.setState({
+    this.setState({
+      playerRoster: players,
+      currentPlayerID: players[0].id,
 			cardData,
-			user: { ...this.state.user, ...user },
-			playerRoster: players,
-			currentPlayerID: players[0].id
-		});
+			user: { ...this.state.user, ...user }
+    });
 	};
 
 	dataSwitch = result => {
@@ -115,20 +117,20 @@ export class App extends Component {
 					received: res => this.dataSwitch(JSON.parse(res.message)),
 					// args below should be obj, even if single key-value pair
 					sendHint: hint => this.cable.perform('send_hint', hint),
-          sendGuess: guess => {
-            console.log('HIT CABLE METHOD GUESS')
-            this.cable.perform('send_guess', guess)
-          }
+					sendGuess: guess => {
+						console.log('HIT CABLE METHOD GUESS');
+						this.cable.perform('send_guess', guess);
+					}
 				}
 			);
 			this.setState({ cable: this.cable });
 		}
-  };
-  
-  testFunc = id => {
-    console.log('oh hi')
-    this.cable.sendGuess({ id });
-  }
+	};
+
+	testFunc = id => {
+		console.log('oh hi');
+		this.cable.sendGuess({ id });
+	};
 
 	render() {
 		console.log('APP State: ', this.state);
@@ -161,7 +163,7 @@ export class App extends Component {
 								cardData={this.state.cardData}
 								isActive={this.state.user.id === this.state.currentPlayerID}
 								cable={this.state.cable}
-								playerRoster={this.state.playerRoster}
+								players={this.state.players}
 								sendGuess={this.testFunc}
 							/>
 						)}
