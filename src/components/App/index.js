@@ -153,18 +153,27 @@ export class App extends Component {
           <Route
             exact
             path="/new"
-            render={() => <NewGame handleUserInit={this.handleUserInit} />}
+            render={
+              /* istanbul ignore next */
+              () => <NewGame handleUserInit={this.handleUserInit} />}
           />
           <Route
             exact
             path="/join"
-            render={() => <JoinGame handleUserInit={this.handleUserInit} />}
+            render={
+              /* istanbul ignore next */
+              () => <JoinGame handleUserInit={this.handleUserInit} />}
           />
-          <Route exact path="/lobby" render={() => <Lobby 
-            players={this.state.playerRoster} 
-            inviteCode={this.state.invite_code}
-            isLobbyFull={this.state.isLobbyFull}
-          />} />
+          <Route 
+            exact 
+            path="/lobby" 
+            render={
+              /* istanbul ignore next */
+              () => <Lobby 
+              players={this.state.playerRoster} 
+              inviteCode={this.state.invite_code}
+              isLobbyFull={this.state.isLobbyFull}
+            />} />
           <Route exact path="/game" component={() => <Main 
             token={this.state.user.token}
             hintLogs={this.state.hintLogs}
