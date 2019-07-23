@@ -6,7 +6,7 @@ import Board from './Board';
 import AgentInput from './AgentInput';
 
 const Main = props => {
-  const form = !props.cardData.type ? null 
+  const form = !props.isActive ? null 
     : <AgentInput
       websocket={props.websocket}
       hintLogs={props.hintLogs}
@@ -19,7 +19,11 @@ const Main = props => {
     <main className="Main">
       <ActionCableProvider url={API_WS_ROOT} socket={props.socket}>
         <Score team={1} score={5} players={["Lynne", "Justin"]} />
-        <Board playerType={'intel'} cardData={props.cardData} />
+        <Board 
+          playerType={'intel'} 
+          cardData={props.cardData} 
+          isActive={props.isActive}
+        />
         <Score team={2} score={6} players={["Rachael", "Jon"]} />
         <div className="offset"></div>
         {form}
