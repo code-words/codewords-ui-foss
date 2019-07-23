@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const Lobby = ({ players, inviteCode, isLobbyFull }) => {
@@ -61,9 +61,8 @@ const Lobby = ({ players, inviteCode, isLobbyFull }) => {
     );
   }
 
-  if (isLobbyFull) {
-    return ( <Redirect to="/game" /> )
-  }
+  const button = !isLobbyFull ? null
+    : <Link className="btn-default continue-btn" to="/game">Continue</Link>;
   
   return (
     <div className="backdrop">
@@ -82,6 +81,7 @@ const Lobby = ({ players, inviteCode, isLobbyFull }) => {
           <h4>Current Agents:</h4>
           {renderJoinedPlayers()}
         </section>
+        {button}
       </section>
     </div>
   )

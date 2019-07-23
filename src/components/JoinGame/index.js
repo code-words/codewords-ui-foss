@@ -43,7 +43,7 @@ class JoinGame extends Component {
           <form className="JoinGame" onSubmit={this.handleSubmit}>
             <h2>Friends started a game?</h2>
             <div>
-              <label for="inviteCode">Please enter invite code</label>
+              <label htmlFor="inviteCode">Please enter invite code</label>
               <input
                 name="inviteCode"
                 value={this.state.inviteCode}
@@ -53,7 +53,7 @@ class JoinGame extends Component {
               />
             </div>
             <div>
-              <label for="inviteCode">Choose your agent name</label>
+              <label htmlFor="inviteCode">Choose your agent name</label>
               <input
                 name="name"
                 type="text"

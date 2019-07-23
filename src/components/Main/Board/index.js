@@ -1,31 +1,23 @@
 import React from 'react';
+import Card from '../Board/Card';
 
 const Board = props => {
-  const status = props.isActive ? "Active" : "Inactive";
+	const { isActive, cardData, sendGuess } = props;
+	const status = isActive ? 'Active' : 'Inactive';
 
-  console.log('Board Props', props)
-  
-  return (
-    <section className="Board">
-      <h2 className="turn-status">
-        Agent Status:
-        <span className={status}>{status}</span>
-      </h2>
-      <div className="gameboard">
-        {props.cardData.map(card => {
-          const intelClass = card.type ? card.type : '';
-
-          return (
-            <article className={`case-file ${intelClass}`} key={`${card.word}-file`}>
-              <div className="case-title" key={`${card.word}-title`}>
-                <p className="word-txt" key={`${card.word}-txt`}>{card.word}</p>
-              </div>
-            </article>
-          )
-        })}
-      </div>
-    </section>
-  )
-}
+	return (
+		<section className="Board">
+			<h2 className="turn-status">
+				Agent Status:
+				<span className={status}>{status}</span>
+			</h2>
+			<div className="gameboard">
+				{cardData.map(card => (
+					<Card card={card} key={card.word} id={card.id} isActive={isActive} sendGuess={sendGuess} />
+				))}
+			</div>
+		</section>
+	);
+};
 
 export default Board;
