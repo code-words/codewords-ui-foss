@@ -41,7 +41,6 @@ export class App extends Component {
 
 	setPlayer = data => {
 		const { playerRoster } = data;
-		console.log('The Deets', data);
 		this.setState({ playerRoster }, () => {
 			if (this.state.playerRoster.length === 4) {
 				this.setState({ isLobbyFull: true });
@@ -59,8 +58,6 @@ export class App extends Component {
 			cardData = await res.json();
 			cardData = cardData.cards;
     }
-    
-    console.log(players)
 
     this.setState({
       playerRoster: players,
@@ -75,7 +72,6 @@ export class App extends Component {
 
 		switch (type) {
 			case 'player-joined':
-				console.log('WE HAVE A PLAYER');
 				this.setPlayer(data);
 				// Set game info [cards, teams, etc]
 				break;
