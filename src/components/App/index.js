@@ -17,38 +17,53 @@ export class App extends Component {
 			user: {},
 			invite_code: '',
       playerRoster: [],
-			hintLogs: [],
-			cardData: [],
-			cable: {},
-			isLobbyFull: false,
-			currentPlayerID: null
-		};
-	}
+      hintLogs: [],
+      cardData: [],
+      cable: {},
+      isLobbyFull: false,
+      currentPlayerID: null,
+      isActive: false
+    };
+  }
 
-	handleUserInit = result => {
-		const { id, name, token } = result;
-		localStorage.setItem('Token', token);
-		const user = { id, name, token };
-		if (result.invite_code) this.setState({ invite_code: result.invite_code });
-		this.setState({ user }, () => this.createCable(token));
-	};
+  determinePlayer = () => {
+    const { currentPlayerID, user } = this.state;
+    if (currentPlayerID && currentPlayerID === user.id) {
+      console.log(`It's me`);
+      return true;
+    } else {
+      if(user.id)
+        console.log('Active', currentPlayerID, 'User:', user.id);
 
-	updateHintLogs = data => {
-		let hintLogs = this.state.hintLogs;
-		hintLogs.push(data);
-		this.setState({ hintLogs });
-	};
+      return false;
+    }
+  }
 
-	setPlayer = data => {
-		const { playerRoster } = data;
-		this.setState({ playerRoster }, () => {
-			if (this.state.playerRoster.length === 4) {
-				this.setState({ isLobbyFull: true });
-			}
-		});
-	};
+  handleUserInit = (result) => {
+    const { id, name, token } = result;
+    localStorage.setItem("Token", token);
+    const user = { id, name, token }
+    if (result.invite_code) this.setState({ invite_code: result.invite_code });
+    this.setState({ user }, () => this.createCable(token));
+  };
 
-	setGame = async data => {
+  updateHintLogs = (data) => {
+    let hintLogs = this.state.hintLogs;
+    hintLogs.push(data);
+    this.setState({ hintLogs });
+  };
+
+  setPlayer = (data) => {
+    const { playerRoster } = data;
+    console.log('The Deets',data);
+    this.setState({ playerRoster }, () => {
+      if (this.state.playerRoster.length === 4) {
+        this.setState({ isLobbyFull: true })
+      }
+    })
+  };
+
+  setGame = async data => {
     const { cards, players } = data;
 		const user = players.find(p => p.id === this.state.user.id);
 		let cardData = cards;
@@ -64,7 +79,7 @@ export class App extends Component {
       currentPlayerID: players[0].id,
 			cardData,
 			user: { ...this.state.user, ...user }
-    });
+    }, () => this.setState({isActive: this.determinePlayer()}));
 	};
 
 	dataSwitch = result => {
@@ -129,18 +144,25 @@ export class App extends Component {
 	};
 
 	render() {
+    console.log('state: ', this.state);
 		return (
 			<div className="App">
 				<Header />
 				<Switch>
 					<Route exact path="/" component={StartScreen} />
 					<Route exact path="/rules" component={RuleList} />
-					<Route exact path="/new" render={() => <NewGame handleUserInit={this.handleUserInit} />} />
-					<Route exact path="/join" render={() => <JoinGame handleUserInit={this.handleUserInit} />} />
+					<Route exact path="/new" render={
+            /* istanbul ignore next */
+            () => <NewGame handleUserInit={this.handleUserInit} />} />
+					<Route exact path="/join" render={
+            /* istanbul ignore next */
+            () => <JoinGame handleUserInit={this.handleUserInit} />} />
 					<Route
 						exact
 						path="/lobby"
-						render={() => (
+						render={
+              /* istanbul ignore next */
+              () => (
 							<Lobby
 								players={this.state.playerRoster}
 								inviteCode={this.state.invite_code}
@@ -164,13 +186,6 @@ export class App extends Component {
 						)}
 					/>
 					<Route component={ErrorScreen} />
-
-					{/* <Route path="/" render={() => <Main
-          cable = {this.state.cable}
-            token={this.state.user.token}
-            hintLogs={this.state.hintLogs}
-            cardData={this.state.cardData}
-          />} /> */}
 				</Switch>
 			</div>
 		);

@@ -1,3 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Lobby should match component snapshot 1`] = `undefined`;
+exports[`Lobby should match component snapshot 1`] = `ReactWrapper {}`;
+
+exports[`Lobby should match snapshot after a player joins 1`] = `ReactWrapper {}`;
+
+exports[`Lobby should match snapshot after a player joins 2`] = `ReactWrapper {}`;

@@ -9,8 +9,6 @@ const Main = props => {
 	const form = !props.cardData.type ? null : (
 		<AgentInput websocket={props.websocket} hintLogs={props.hintLogs} cable={props.cable} isActive={props.isActive} />
   );
-  
-  console.log(props)
 
 	const players = {
 		blueIntel: props.players.find(p => p.isIntel && p.isBlueTeam),
@@ -20,8 +18,8 @@ const Main = props => {
 	};
 
 	const scores = {
-		blue: props.blueScore || 0,
-		red: props.redScore || 0
+		blue: props.scores.blueScore || 0,
+		red: props.scores.redScore || 0
 	};
 
 	return (

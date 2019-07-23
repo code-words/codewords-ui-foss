@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {API_ROOT, HEADERS} from '../../variables'
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class NewGame extends Component {
   constructor() {
@@ -66,6 +67,10 @@ class NewGame extends Component {
       </div>
     )
   }
+}
+
+NewGame.propTypes = {
+  handleUserInit: PropTypes.func
 }
 
 export default NewGame;

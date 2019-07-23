@@ -5,29 +5,31 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 const Lobby = ({ players, inviteCode, isLobbyFull }) => {
   const renderJoinedPlayers = () => {
     let agents = [];
+    let availKeys = [];
 
     for (let i = 0; i <= 3; i++) {
       if (players[i]) {
         agents.push(players[i].name)
       } else {
         agents.push(null);
+        availKeys.push(i)
       }
     }
 
-    return agents.map(a => isAgent(a));
+    return agents.map((a, index) => isAgent(a, index));
   };
 
-  const isAgent = (agent) => {
+  const isAgent = (agent, index) => {
     if (agent !== null) {
       return (
-        <div className="agent">
-          <p>{agent.toUpperCase()}</p>
+        <div className="agent" key={`agent${agent.id}`}>
+          <p key={`p${agent.id}`}>{agent.toUpperCase()}</p>
         </div>
       )
     } else {
       return (
-        <div className="agent missing">
-          <p>{loadingDots()}</p>
+        <div className="agent missing" key={`dot${index}`}>
+          <p key={`pDot${index}`}>{loadingDots()}</p>
         </div>
       )
     }
@@ -40,7 +42,9 @@ const Lobby = ({ players, inviteCode, isLobbyFull }) => {
       dots.push(`dot${i}`);
     }
 
-    return dots.map(d => <span id={d}>-</span> )
+    return dots.map((d, ind) => 
+      <span key={ind} id={d}>-</span>
+    )
   }
 
   const renderCode = () => {
