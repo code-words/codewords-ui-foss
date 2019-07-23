@@ -9,8 +9,9 @@ class Card extends React.Component {
 	}
 
   handleClick = e => {
-    this.setState({flipped: !this.state.flipped})
-		this.props.sendGuess(e.target.id);
+    this.setState({ flipped: !this.state.flipped })
+    console.log(e.target)
+    this.props.sendGuess({ id: e.target.id });
 	};
 
 	render() {
@@ -22,7 +23,7 @@ class Card extends React.Component {
 
     //replace next line w/ card.flipped when data is updating
 		const content = this.state.flipped ? (
-			<article className="card" key={`${card.word}`}>
+      <article className="card" key={`${card.word}`} id={card.id}>
 				<img className="card" src={img} />
 			</article>
 		) : (
