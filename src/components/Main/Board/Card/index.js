@@ -9,16 +9,16 @@ class Card extends React.Component {
 	}
 
   handleClick = e => {
-    this.setState({ flipped: !this.state.flipped })
-    console.log(e.target)
-    this.props.sendGuess({ id: e.currentTarget.id });
+    if (this.props.isActive && !this.props.card.type) {
+      this.setState({ flipped: true })
+      this.props.sendGuess({ id: e.currentTarget.id });
+    }
 	};
 
 	render() {
 		const { card, isActive } = this.props;
-
 		const intelCls = card.type ? card.type : '';
-		// const clickCls = !card.type && isActive ? 'clickable' : null;
+		const clickCls = !card.type && isActive ? 'clickable' : null;
 		const img = card.type ? require(`../../../../images/${card.type}.jpg`) : null;
 
     //replace next line w/ card.flipped when data is updating
@@ -28,7 +28,7 @@ class Card extends React.Component {
 			</article>
 		) : (
 			<article
-				className={`card front ${intelCls} clickable`}
+				className={`card front ${intelCls} ${clickCls}`}
 				key={`${card.word}`}
 				id={card.id}
 				name={card.word}

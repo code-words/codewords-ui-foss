@@ -1,6 +1,7 @@
 import React from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CopyToClipboard } from "react-copy-to-clipboard";
+const shortid = require('shortid');
 
 const Lobby = ({ players, inviteCode, isLobbyFull }) => {
   const renderJoinedPlayers = () => {
@@ -22,14 +23,14 @@ const Lobby = ({ players, inviteCode, isLobbyFull }) => {
   const isAgent = (agent, index) => {
     if (agent !== null) {
       return (
-        <div className="agent" key={`agent${agent.id}`}>
-          <p key={`p${agent.id}`}>{agent.toUpperCase()}</p>
+        <div className="agent" key={shortid.generate()}>
+          <p key={shortid.generate()}>{agent.toUpperCase()}</p>
         </div>
       )
     } else {
       return (
-        <div className="agent missing" key={`dot${index}`}>
-          <p key={`pDot${index}`}>{loadingDots()}</p>
+        <div className="agent missing" key={shortid.generate()}>
+          <p key={shortid.generate()}>{loadingDots()}</p>
         </div>
       )
     }

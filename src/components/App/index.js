@@ -21,8 +21,7 @@ export class App extends Component {
       cardData: [],
       cable: {},
       isLobbyFull: false,
-      currentPlayerID: null,
-      isActive: false
+      currentPlayerID: null
     };
   }
 
