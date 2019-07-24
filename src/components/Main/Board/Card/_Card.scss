@@ -28,7 +28,7 @@
 
 .word-bg {
   background: #FFFFFF;
-  width: 100%;
+  width: calc(100% - 3px);
   display: flex;
   align-items: center;
   justify-content: center;

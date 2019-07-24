@@ -9,7 +9,7 @@ const Board = props => {
 		<section className="Board">
 			<h2 className="turn-status">
 				Agent Status:
-				<span className={status}>{status}</span>
+				<span className={status}> {status}</span>
 			</h2>
 			<div className="gameboard">
 				{cardData.map(card => (
