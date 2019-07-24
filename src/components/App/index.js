@@ -142,10 +142,6 @@ export class App extends Component {
 			this.setState({ cable: this.cable });
 		}
 	};
-
-	testFunc = id => {
-		this.cable.sendGuess({ id });
-	};
 	render() {
     // console.log('state: ', this.state);
 		return (
