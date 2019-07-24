@@ -22,6 +22,11 @@ export class App extends Component {
       cable: {},
       isLobbyFull: false,
       currentPlayerId: null,
+      remainingAttempts: null,
+      scores: {
+        blueTeam: 0,
+        redTeam: 0
+      },
       currentHint: {
         hintWord: '', 
         relatedCards: null
@@ -98,12 +103,12 @@ export class App extends Component {
 				break;
 			case 'board-update':
 				console.log('BOARD UPDATED');
-				const { card, currentPlayer, remainingAttempts } = data;
+				const { card, currentPlayerId, remainingAttempts } = data;
 				let cardData = [ ...this.state.cardData ];
 				const cardIdx = cardData.findIndex(i => i.id === card.id);
 
 				cardData[cardIdx] = { ...cardData[cardIdx], ...card };
-				this.setState({ cardData, currentPlayer, remainingAttempts });
+				this.setState({ cardData, currentPlayerId, remainingAttempts });
         break;
       case 'illegal-action':
         console.log(data)
@@ -124,7 +129,6 @@ export class App extends Component {
 					disconnected: () => console.log('disconnected'),
 					rejected: () => console.log('rejected'),
 					received: res => this.dataSwitch(JSON.parse(res.message)),
-					// args below should be obj, even if single key-value pair
 					sendHint: hint => {
             console.log('Hint MF', hint)
             this.cable.perform('send_hint', hint)
@@ -173,7 +177,8 @@ export class App extends Component {
 							<Main
 								token={this.state.user.token}
 								hintLogs={this.state.hintLogs}
-								cardData={this.state.cardData}
+                cardData={this.state.cardData}
+                isIntel={this.state.user.isIntel}
 								isActive={this.state.user.id === this.state.currentPlayerId}
 								cable={this.state.cable}
 								players={this.state.playerRoster}
