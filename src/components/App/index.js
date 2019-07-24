@@ -143,13 +143,9 @@ export class App extends Component {
 		}
 	};
 
-<<<<<<< HEAD
 	testFunc = id => {
 		this.cable.sendGuess({ id });
 	};
-
-=======
->>>>>>> 882a23a59225e6729fe0c85f0d45b37fc5ee4004
 	render() {
     // console.log('state: ', this.state);
 		return (
