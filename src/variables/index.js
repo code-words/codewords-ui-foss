@@ -4,6 +4,7 @@ switch (window.location.hostname) {
     GAME_HOST = 'localhost:3000';
     break;
   case 'playcodewords.com':
+  case 'www.playcodewords.com':
     GAME_HOST = 'codewords-server.herokuapp.com'
   default:
     GAME_HOST = window.location.hostname.replace('game', 'server');
