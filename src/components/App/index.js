@@ -21,7 +21,11 @@ export class App extends Component {
       cardData: [],
       cable: {},
       isLobbyFull: false,
-      currentPlayerID: null
+      currentPlayerId: null,
+      currentHint: {
+        hintWord: '', 
+        relatedCards: null
+      }
     };
   }
 
@@ -62,11 +66,20 @@ export class App extends Component {
 
     this.setState({
       playerRoster: players,
-      currentPlayerID: firstPlayerId,
+      currentPlayerId: firstPlayerId,
 			cardData,
 			user: { ...this.state.user, ...user }
     });
-	};
+  };
+  
+  setHint = data => {
+    const { hintWord, relatedCards, currentPlayerId } = data;
+
+    this.setState({
+      currentPlayerId,
+      hint: { hintWord, relatedCards}
+    })
+  }
 
 	dataSwitch = result => {
     const { type, data } = result;
@@ -79,14 +92,9 @@ export class App extends Component {
 			case 'game-setup':
 				this.setGame(data);
 				break;
-      case 'player-hint':
-        console.log('HINT GIVEN');
-				// Did a player give a hint?
-				// this.setHint(data);
-				// What is the hint and how many cards does it relate to?
-				// Render hint to all players
-				// Switch active player to Spy of same team
-				//This is also where we should callupdateHintLog()
+      case 'hint-provided':
+        console.log('HINT GIVEN')
+        this.setHint(data)
 				break;
 			case 'board-update':
 				console.log('BOARD UPDATED');
@@ -166,7 +174,7 @@ export class App extends Component {
 								token={this.state.user.token}
 								hintLogs={this.state.hintLogs}
 								cardData={this.state.cardData}
-								isActive={this.state.user.id === this.state.currentPlayerID}
+								isActive={this.state.user.id === this.state.currentPlayerId}
 								cable={this.state.cable}
 								players={this.state.playerRoster}
 								sendGuess={this.cable.sendGuess}
