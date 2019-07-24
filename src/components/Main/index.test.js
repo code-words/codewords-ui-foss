@@ -4,12 +4,12 @@ import { shallow } from 'enzyme';
 
 describe('Main', () => {
   let wrapper;
-  let mockPlayers= [{ players:{blueIntel:{name: "test"}}}, {players:{blueIntel:{name: "test"}}}]
+  let mockPlayers= ["test", "test"]
   let mockScores={blueScore: 0, redScore: 0}
+  let mockCard=[{flipped:true, type: "blue"}]
 
   beforeEach(() => {
-    wrapper = shallow(<Main scores={mockScores} players={mockPlayers}/>);
-
+    wrapper = shallow(<Main cardData={mockCard} scores={mockScores} players={mockPlayers}/>);
   })
 
   it('should match component snapshot', () => {
