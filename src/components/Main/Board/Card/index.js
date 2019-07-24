@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 class Card extends Component {
-	constructor(props) {
-    super(props);
-
-	}
-
   handleClick = e => {
     if (this.props.isActive && !this.props.card.type) {
       this.props.sendGuess({ id: e.currentTarget.id });
