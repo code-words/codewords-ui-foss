@@ -9,6 +9,7 @@ import Lobby from '../Lobby';
 import Main from '../Main';
 import ErrorScreen from '../ErrorScreen';
 import Cable from 'actioncable';
+import ConfDialog from '../ConfDialog';
 
 export class App extends Component {
 	constructor() {
@@ -23,14 +24,12 @@ export class App extends Component {
       isLobbyFull: false,
       currentPlayerId: null,
       remainingAttempts: null,
-      scores: {
-        blueTeam: 0,
-        redTeam: 0
-      },
       currentHint: {
         hintWord: '', 
         relatedCards: null
-      }
+      },
+      showDialog: false,
+      confMsg: ''
     };
   }
 
@@ -79,11 +78,28 @@ export class App extends Component {
   
   setHint = data => {
     const { hintWord, relatedCards, currentPlayerId } = data;
+    const player = this.state.playerRoster
+      .find(p => p.id === this.state.currentPlayerId);
 
-    this.setState({
-      currentPlayerId,
-      hint: { hintWord, relatedCards}
-    })
+    this.setState({ 
+      currentPlayerId, 
+      remainingAttempts: relatedCards + 1,
+      currentHint: { hintWord, relatedCards}
+    }, () => this.showConf(
+      `${player.name} gave a hint: ${hintWord} (x${relatedCards})`
+      )
+    );
+  }
+
+  clearHint = (remainingAttempts) => {
+    if(remainingAttempts === 0 ) {
+      this.setState({
+        currentHint: {
+          hintWord: '',
+          relatedCards: null
+        }
+      });
+    }
   }
 
 	dataSwitch = result => {
@@ -98,25 +114,36 @@ export class App extends Component {
 				this.setGame(data);
 				break;
       case 'hint-provided':
-        console.log('HINT GIVEN')
         this.setHint(data)
 				break;
-			case 'board-update':
-				console.log('BOARD UPDATED');
+      case 'board-update':
+        const player = this.state.playerRoster
+          .find(p => p.id === this.state.currentPlayerId);
 				const { card, currentPlayerId, remainingAttempts } = data;
 				let cardData = [ ...this.state.cardData ];
-				const cardIdx = cardData.findIndex(i => i.id === card.id);
+        const cardIdx = cardData.findIndex(i => i.id === card.id);
 
-				cardData[cardIdx] = { ...cardData[cardIdx], ...card };
-				this.setState({ cardData, currentPlayerId, remainingAttempts });
+        cardData[cardIdx] = { ...cardData[cardIdx], ...card };
+        
+        this.setState({ cardData, currentPlayerId, remainingAttempts }, () => this.showConf(`${player.name} guessed ${cardData[cardIdx].word}!`));
+
+        this.clearHint(remainingAttempts);
+        break;
+      case 'game-over':
+        this.showConf(`End of Game!  ${data.winningTeam.toUpperCase()} team wins!`)
         break;
       case 'illegal-action':
-        console.log(data)
+        this.showConf(data.error);
         break;
 			default:
 				console.log('ERROR in Switch');
 		}
-	};
+  };
+  
+  showConf = msg => {
+    this.setState({ showDialog: true, confMsg: msg });
+    setTimeout(() => this.setState({ showDialog: false }), 2000);
+  }
 
 	createCable = token => {
 		if (this.state.user.token === token) {
@@ -129,23 +156,21 @@ export class App extends Component {
 					disconnected: () => console.log('disconnected'),
 					rejected: () => console.log('rejected'),
 					received: res => this.dataSwitch(JSON.parse(res.message)),
-					sendHint: hint => {
-            console.log('Hint MF', hint)
-            this.cable.perform('send_hint', hint)
-          },
-					sendGuess: guess => {
-						console.log('HIT CABLE METHOD GUESS', guess);
-						this.cable.perform('send_guess', guess);
-					}
+					sendHint: hint => this.cable.perform('send_hint', hint),
+					sendGuess: guess => this.cable.perform('send_guess', guess)
 				}
 			);
 			this.setState({ cable: this.cable });
 		}
 	};
 	render() {
-    // console.log('state: ', this.state);
+    console.log('APP state: ', this.state);
+
+    const dialog = this.state.showDialog ? <ConfDialog message={this.state.confMsg} /> : null;
+      
 		return (
-			<div className="App">
+      <div className="App">
+        {dialog}
 				<Header />
 				<Switch>
 					<Route exact path="/" component={StartScreen} />
@@ -177,9 +202,12 @@ export class App extends Component {
 								token={this.state.user.token}
 								hintLogs={this.state.hintLogs}
                 cardData={this.state.cardData}
+                hint={this.state.currentHint}
+                remainingAttempts={this.state.remainingAttempts}
                 isIntel={this.state.user.isIntel}
 								isActive={this.state.user.id === this.state.currentPlayerId}
-								cable={this.state.cable}
+                cable={this.state.cable}
+                user={this.state.user}
 								players={this.state.playerRoster}
 								sendGuess={this.cable.sendGuess}
 							/>

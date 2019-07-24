@@ -62,6 +62,11 @@ const Lobby = ({ players, inviteCode, isLobbyFull }) => {
     );
   }
 
+  const message = players.length === 4 ? `Ready to start mission! Click CONTINUE...`
+    : `Waiting for ${4 - players.length} more players`;
+  
+  const messageCls = players.length === 4 ? 'Active' : '';
+
   const button = !isLobbyFull ? null
     : <Link className="btn-default continue-btn" to="/game">Continue</Link>;
   
@@ -73,8 +78,8 @@ const Lobby = ({ players, inviteCode, isLobbyFull }) => {
           <span className="fade"></span>
         </div>
         <div className="Lobby-sub">
-          <h3> 
-            Waiting for {4 - players.length} more players
+          <h3 className={`status ${messageCls}`}> 
+            {message}
           </h3>
           {inviteCode && renderCode()}
         </div>

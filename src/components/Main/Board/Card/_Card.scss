@@ -28,7 +28,7 @@
 
 .word-bg {
   background: #FFFFFF;
-  width: calc(100% - 3px);
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,5 +40,11 @@
     font-weight: 500;
     padding: 10px 0;
     color: rgb(108, 93, 74);
+  }
+}
+
+.true-hover {
+  &:hover {
+    border: 3px outset $player-active;
   }
 }

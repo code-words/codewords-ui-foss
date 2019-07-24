@@ -53,7 +53,6 @@ class AgentInput extends Component {
 	// }
 
 	render() {
-		console.log('Agent State', this.state);
 		return (
 			<form className="AgentInput" onSubmit={e => this.handleSendEvent(e)}>
 				{/* <ul className='chat-logs'>
@@ -69,7 +68,6 @@ class AgentInput extends Component {
 						type="text"
 						placeholder="Enter your hint..."
 						className="chat-input"
-						disabled={!this.props.isActive}
 					/>
 					<label htmlFor="num-input">Quantity:</label>
 					<input
@@ -78,12 +76,11 @@ class AgentInput extends Component {
 						type="number"
 						value={this.state.numCards}
 						onChange={this.handleChange}
-						disabled={!this.props.isActive}
 					/>
           <button
             onClick={e => this.handleSendEvent(e)}
             className="btn-default send-btn"
-            disabled={!this.props.isActive}
+            disabled={!this.state.hintWord || !this.state.numCards}
           >
 						Send
 					</button>

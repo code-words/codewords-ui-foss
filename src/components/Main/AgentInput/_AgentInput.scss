@@ -5,7 +5,7 @@
   background: rgba(255, 255, 255, 0.242);
   padding: 25px 15px;
   margin: 10px 30px;
-  width: 95%;
+  width: 35em;
   box-sizing: border-box;
   border-radius: 10px;
   border: 1px ridge $player-active;
@@ -25,6 +25,15 @@
     border: none;
     border-radius: 50px;
     text-transform: uppercase;
+
+    &:disabled {
+      background: gray;
+      color: rgb(91, 91, 91);
+
+      &:hover {
+        background: gray;
+      }
+    }
 
     &:hover {
       background: $player-active;
