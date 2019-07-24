@@ -10,6 +10,8 @@ import Main from '../Main';
 import ErrorScreen from '../ErrorScreen';
 import Cable from 'actioncable';
 import ConfDialog from '../ConfDialog';
+import { API_ROOT, API_WS_ROOT } from "../../variables/";
+
 
 export class App extends Component {
 	constructor() {
@@ -63,7 +65,7 @@ export class App extends Component {
 		let cardData = cards;
 
 		if (user.isIntel) {
-			const res = await fetch(`http://localhost:3000/api/v1/intel?token=${this.state.user.token}`);
+			const res = await fetch(`${API_ROOT}/v1/intel?token=${this.state.user.token}`);
 			cardData = await res.json();
 			cardData = cardData.cards;
     }
@@ -152,7 +154,7 @@ export class App extends Component {
 
 	createCable = token => {
 		if (this.state.user.token === token) {
-			let connection = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
+			let connection = Cable.createConsumer(`${API_WS_ROOT}/${token}`);
 
 			this.cable = connection.subscriptions.create(
 				{ channel: 'GameDataChannel' },
