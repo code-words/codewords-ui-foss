@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class AgentInput extends Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -45,6 +46,11 @@ class AgentInput extends Component {
 	handleChatInputKeyPress(event) {
 		if (event.key === 'Enter') this.handleSendEvent(event);
   }
+  // updateCurrentChatMessage({target}) {
+  //     this.setState({
+  //       hint: target.value
+  //     });
+  // }
 
 	// updateCurrentChatMessage({target}) {
 	//     this.setState({

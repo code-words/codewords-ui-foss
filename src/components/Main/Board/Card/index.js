@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 class Card extends Component {
 	constructor(props) {
     super(props);
@@ -11,7 +10,6 @@ class Card extends Component {
       this.props.sendGuess({ id: e.currentTarget.id });
     }
 	};
-
 	render() {
     const { card, isActive, isHover } = this.props;
     const { type, flipped, word, id } = card;
