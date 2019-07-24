@@ -16,7 +16,8 @@ const Main = props => {
       )
     : ( <AgentHUD 
           isActive={props.isActive}
-          hint={props.hint} />
+          hint={props.hint}
+        />
       );
 
 	const players = {
@@ -27,8 +28,8 @@ const Main = props => {
 	};
 
 	const scores = {
-		blue: 0,
-		red: 0
+    blue: props.cardData.filter(c => c.flipped && c.type === 'blue').length,
+    red: props.cardData.filter(c => c.flipped && c.type === 'red').length
 	};
 
 	return (

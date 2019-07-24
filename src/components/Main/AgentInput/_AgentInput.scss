@@ -26,6 +26,15 @@
     border-radius: 50px;
     text-transform: uppercase;
 
+    &:disabled {
+      background: gray;
+      color: rgb(91, 91, 91);
+
+      &:hover {
+        background: gray;
+      }
+    }
+
     &:hover {
       background: $player-active;
     }
