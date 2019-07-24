@@ -84,8 +84,6 @@ export class App extends Component {
     this.setState({
       currentPlayerId,
       hint: { hintWord, relatedCards },
-      showDialog: true,
-      confMsg: `${player.name} gave the hint: ${hintWord} (x${relatedCards})`
     }, () => this.showConf(`${player.name} gave a hint: ${hintWord} (x${relatedCards})`));
   }
 
