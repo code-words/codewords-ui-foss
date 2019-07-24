@@ -41,6 +41,7 @@ const Main = props => {
           playerType={'intel'} 
           userName={props.user.name}
           isActive={props.isActive} 
+          isIntel={props.isIntel}
           cardData={props.cardData} 
           sendGuess={props.sendGuess} />
 				<Score team={'red'} score={scores.red} players={[ players.redIntel.name, players.redGuesser.name ]} />
