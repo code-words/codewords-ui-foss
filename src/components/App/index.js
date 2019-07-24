@@ -118,7 +118,7 @@ export class App extends Component {
         this.showConf(`End of Game!  ${data.winningTeam.toUpperCase()} team wins!`)
         break;
       case 'illegal-action':
-        console.log(data)
+        this.showConf(data.error);
         break;
 			default:
 				console.log('ERROR in Switch');
