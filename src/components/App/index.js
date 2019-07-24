@@ -10,6 +10,8 @@ import Main from '../Main';
 import ErrorScreen from '../ErrorScreen';
 import Cable from 'actioncable';
 import ConfDialog from '../ConfDialog';
+import { API_ROOT, API_WS_ROOT } from "../../variables/";
+
 
 export class App extends Component {
 	constructor() {
@@ -62,7 +64,7 @@ export class App extends Component {
 		let cardData = cards;
 
 		if (user.isIntel) {
-			const res = await fetch(`http://localhost:3000/api/v1/intel?token=${this.state.user.token}`);
+			const res = await fetch(`${API_ROOT}/v1/intel?token=${this.state.user.token}`);
 			cardData = await res.json();
 			cardData = cardData.cards;
     }
@@ -90,6 +92,20 @@ export class App extends Component {
     );
   }
 
+  setGuess = data => {
+    const player = this.state.playerRoster
+      .find(p => p.id === this.state.currentPlayerId);
+    const { card, currentPlayerId, remainingAttempts } = data;
+    let cardData = [ ...this.state.cardData ];
+    const cardIdx = cardData.findIndex(i => i.id === card.id);
+
+    cardData[cardIdx] = { ...cardData[cardIdx], ...card };
+    
+    this.setState({ cardData, currentPlayerId, remainingAttempts }, () => this.showConf(`${player.name} guessed ${cardData[cardIdx].word}!`));
+
+    this.clearHint(remainingAttempts);
+  }
+
   clearHint = (remainingAttempts) => {
     if(remainingAttempts === 0 ) {
       this.setState({
@@ -114,19 +130,10 @@ export class App extends Component {
         this.setHint(data)
 				break;
       case 'board-update':
-        const player = this.state.playerRoster
-          .find(p => p.id === this.state.currentPlayerId);
-				const { card, currentPlayerId, remainingAttempts } = data;
-				let cardData = [ ...this.state.cardData ];
-        const cardIdx = cardData.findIndex(i => i.id === card.id);
-
-        cardData[cardIdx] = { ...cardData[cardIdx], ...card };
-        
-        this.setState({ cardData, currentPlayerId, remainingAttempts }, () => this.showConf(`${player.name} guessed ${cardData[cardIdx].word}!`));
-
-        this.clearHint(remainingAttempts);
+        this.setGuess(data);
         break;
       case 'game-over':
+        this.setGuess(data);
         this.showConf(`End of Game!  ${data.winningTeam.toUpperCase()} team wins!`)
         break;
       case 'illegal-action':
@@ -138,13 +145,14 @@ export class App extends Component {
   };
   
   showConf = msg => {
-    this.setState({ showDialog: true, confMsg: msg });
+    setTimeout(() => this.setState({ showDialog: true, confMsg: msg }), 500);
     setTimeout(() => this.setState({ showDialog: false }), 2000);
   }
 
 	createCable = token => {
 		if (this.state.user.token === token) {
-			let connection = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
+			let connection = Cable.createConsumer(`${API_WS_ROOT}/${token}`);
+
 			this.cable = connection.subscriptions.create(
         { channel: 'GameDataChannel' },
 				{
