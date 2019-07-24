@@ -4,11 +4,20 @@ import { API_WS_ROOT } from '../../variables';
 import Score from './Score';
 import Board from './Board';
 import AgentInput from './AgentInput';
+import AgentHUD from './AgentHUD';
 
 const Main = props => {
-	const form = !props.isActive || !props.isIntel ? null : (
-		<AgentInput websocket={props.websocket} hintLogs={props.hintLogs} cable={props.cable} isActive={props.isActive} />
-  );
+  const form = props.isActive //&& props.isIntel
+    ? ( <AgentInput 
+          websocket={props.websocket} 
+          hintLogs={props.hintLogs} 
+          cable={props.cable} 
+          isActive={props.isActive} />
+      )
+    : ( <AgentHUD 
+          isActive={props.isActive}
+          hint={props.hint} />
+      );
 
 	const players = {
 		blueIntel: props.players.find(p => p.isIntel && p.isBlueTeam),

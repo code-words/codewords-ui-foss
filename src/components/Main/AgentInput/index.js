@@ -44,7 +44,7 @@ class AgentInput extends Component {
 
 	handleChatInputKeyPress(event) {
 		if (event.key === 'Enter') this.handleSendEvent(event);
-	}
+  }
 
 	// updateCurrentChatMessage({target}) {
 	//     this.setState({
@@ -91,6 +91,7 @@ class AgentInput extends Component {
 			</form>
 		);
 	}
+
 }
 
 export default AgentInput;

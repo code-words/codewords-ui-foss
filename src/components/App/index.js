@@ -26,6 +26,10 @@ export class App extends Component {
       scores: {
         blueTeam: 0,
         redTeam: 0
+      },
+      currentHint: {
+        hintWord: '', 
+        relatedCards: null
       }
     };
   }
@@ -71,7 +75,16 @@ export class App extends Component {
 			cardData,
 			user: { ...this.state.user, ...user }
     });
-	};
+  };
+  
+  setHint = data => {
+    const { hintWord, relatedCards, currentPlayerId } = data;
+
+    this.setState({
+      currentPlayerId,
+      hint: { hintWord, relatedCards}
+    })
+  }
 
 	dataSwitch = result => {
     const { type, data } = result;
@@ -85,14 +98,8 @@ export class App extends Component {
 				this.setGame(data);
 				break;
       case 'hint-provided':
-        console.log('HINT GIVEN');
-				// Did a player give a hint?
-				// this.setHint(data);
-				// What is the hint and how many cards does it relate to?
-				// Render hint to all players
-				// Switch active player to Spy of same team
-        //This is also where we should callupdateHintLog()
-        this.setState({currentPlayerId: data.currentPlayerId})
+        console.log('HINT GIVEN')
+        this.setHint(data)
 				break;
 			case 'board-update':
 				console.log('BOARD UPDATED');
