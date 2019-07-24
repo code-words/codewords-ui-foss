@@ -139,12 +139,11 @@ export class App extends Component {
 	};
 
 	testFunc = id => {
-		console.log('oh hi');
 		this.cable.sendGuess({ id });
 	};
 
 	render() {
-    console.log('state: ', this.state);
+    // console.log('state: ', this.state);
 		return (
 			<div className="App">
 				<Header />
