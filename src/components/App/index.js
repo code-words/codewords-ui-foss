@@ -9,6 +9,7 @@ import Lobby from '../Lobby';
 import Main from '../Main';
 import ErrorScreen from '../ErrorScreen';
 import Cable from 'actioncable';
+import ConfDialog from '../ConfDialog';
 
 export class App extends Component {
 	constructor() {
@@ -23,14 +24,12 @@ export class App extends Component {
       isLobbyFull: false,
       currentPlayerId: null,
       remainingAttempts: null,
-      scores: {
-        blueTeam: 0,
-        redTeam: 0
-      },
       currentHint: {
         hintWord: '', 
         relatedCards: null
-      }
+      },
+      showDialog: false,
+      confMsg: ''
     };
   }
 
@@ -79,11 +78,15 @@ export class App extends Component {
   
   setHint = data => {
     const { hintWord, relatedCards, currentPlayerId } = data;
+    const player = this.state.playerRoster
+      .find(p => p.id === this.state.currentPlayerId);
 
     this.setState({
       currentPlayerId,
-      hint: { hintWord, relatedCards}
-    })
+      hint: { hintWord, relatedCards },
+      showDialog: true,
+      confMsg: `${player.name} gave the hint: ${hintWord} (x${relatedCards})`
+    }, () => this.showConf(`${player.name} gave a hint: ${hintWord} (x${relatedCards})`));
   }
 
 	dataSwitch = result => {
@@ -101,14 +104,20 @@ export class App extends Component {
         console.log('HINT GIVEN')
         this.setHint(data)
 				break;
-			case 'board-update':
-				console.log('BOARD UPDATED');
+      case 'board-update':
+        const player = this.state.playerRoster
+          .find(p => p.id === this.state.currentPlayerId);
 				const { card, currentPlayerId, remainingAttempts } = data;
 				let cardData = [ ...this.state.cardData ];
-				const cardIdx = cardData.findIndex(i => i.id === card.id);
+        const cardIdx = cardData.findIndex(i => i.id === card.id);
 
-				cardData[cardIdx] = { ...cardData[cardIdx], ...card };
-				this.setState({ cardData, currentPlayerId, remainingAttempts });
+        cardData[cardIdx] = { ...cardData[cardIdx], ...card };
+        
+        this.setState({ cardData, currentPlayerId, remainingAttempts }, () => this.showConf(`${player.name} guessed ${cardData[cardIdx].word}!`));
+        
+        break;
+      case 'game-over':
+        this.showConf(`End of Game!  ${data.winningTeam.toUpperCase()} team wins!`)
         break;
       case 'illegal-action':
         console.log(data)
@@ -116,7 +125,12 @@ export class App extends Component {
 			default:
 				console.log('ERROR in Switch');
 		}
-	};
+  };
+  
+  showConf = msg => {
+    this.setState({ showDialog: true, confMsg: msg });
+    setTimeout(() => this.setState({ showDialog: false }), 2000);
+  }
 
 	createCable = token => {
 		if (this.state.user.token === token) {
@@ -145,8 +159,12 @@ export class App extends Component {
 
 	render() {
     console.log('state: ', this.state);
+
+    const dialog = this.state.showDialog ? <ConfDialog message={this.state.confMsg} /> : null;
+      
 		return (
-			<div className="App">
+      <div className="App">
+        {dialog}
 				<Header />
 				<Switch>
 					<Route exact path="/" component={StartScreen} />
