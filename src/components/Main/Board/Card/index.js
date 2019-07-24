@@ -13,7 +13,7 @@ class Card extends Component {
 	};
 
 	render() {
-    const { card, isActive } = this.props;
+    const { card, isActive, isHover } = this.props;
     const { type, flipped, word, id } = card;
 		const intelCls = type ? type : '';
 		const clickCls = !type && isActive && !flipped ? 'clickable' : null;
@@ -25,7 +25,7 @@ class Card extends Component {
 			</article>
 		) : (
 			<article
-				className={`card front ${intelCls} ${clickCls}`}
+				className={`card front ${intelCls} ${clickCls} ${isHover}-hover`}
 				key={`${word}`}
 				id={id}
 				name={word}

@@ -42,3 +42,9 @@
     color: rgb(108, 93, 74);
   }
 }
+
+.true-hover {
+  &:hover {
+    border: 3px outset $player-active;
+  }
+}

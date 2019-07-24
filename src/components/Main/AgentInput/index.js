@@ -53,7 +53,6 @@ class AgentInput extends Component {
 	// }
 
 	render() {
-		console.log('Agent State', this.state);
 		return (
 			<form className="AgentInput" onSubmit={e => this.handleSendEvent(e)}>
 				{/* <ul className='chat-logs'>

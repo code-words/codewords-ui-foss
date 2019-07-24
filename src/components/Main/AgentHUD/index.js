@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AgentHUD = ({isActive, hint}) => {
+const AgentHUD = ({ isActive, hint, remainingAttempts }) => {
   const renderMessage = () => {
     let dots = ['.','.','.'];
     const appendDots = dots
@@ -14,6 +14,7 @@ const AgentHUD = ({isActive, hint}) => {
             Related to (<strong>{hint.relatedCards}</strong>) cards
           </h3>
           {isActive && <p>Click a card above</p>}
+          <h4>Remaining Guesses (<strong>{ remainingAttempts }</strong>)</h4>
         </div>
       )
     } else {

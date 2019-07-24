@@ -13,7 +13,13 @@ const Board = props => {
 			</h2>
 			<div className="gameboard">
 				{cardData.map(card => (
-					<Card card={card} key={card.word} id={card.id} isActive={isActive} sendGuess={sendGuess} />
+					<Card 
+						card={card} 
+						key={card.word} 
+						id={card.id} 
+						isHover={props.isActive && !props.isIntel} 
+						isActive={isActive} 
+						sendGuess={sendGuess} />
 				))}
 			</div>
 		</section>

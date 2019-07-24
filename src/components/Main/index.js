@@ -17,6 +17,7 @@ const Main = props => {
     : ( <AgentHUD 
           isActive={props.isActive}
           hint={props.hint}
+          remainingAttempts={props.remainingAttempts}
         />
       );
 
