@@ -26,3 +26,5 @@ exports[`Board Should render Component 1`] = `
   </section>
 </Board>"
 `;
+
+exports[`Board should match component snapshot 1`] = `ShallowWrapper {}`;
