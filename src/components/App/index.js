@@ -142,9 +142,8 @@ export class App extends Component {
 			this.setState({ cable: this.cable });
 		}
 	};
-
 	render() {
-    console.log('state: ', this.state);
+    // console.log('state: ', this.state);
 		return (
 			<div className="App">
 				<Header />

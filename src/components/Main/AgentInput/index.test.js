@@ -15,5 +15,5 @@ describe('AgentInput', () => {
   it('should match component snapshot', () => {
     expect(wrapper).toMatchSnapshot();
   });
-
+  
 })
