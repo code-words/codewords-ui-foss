@@ -59,7 +59,6 @@ export class App extends Component {
   };
 
   setGame = async data => {
-    console.log('game data: ', data)
     const { cards, players, firstPlayerId } = data;
 		const user = players.find(p => p.id === this.state.user.id);
 		let cardData = cards;
@@ -120,8 +119,6 @@ export class App extends Component {
 
 	dataSwitch = result => {
     const { type, data } = result;
-    console.log(type,':' ,data)
-
 		switch (type) {
 			case 'player-joined':
 				this.setPlayer(data);
@@ -157,13 +154,13 @@ export class App extends Component {
 			let connection = Cable.createConsumer(`${API_WS_ROOT}/${token}`);
 
 			this.cable = connection.subscriptions.create(
-				{ channel: 'GameDataChannel' },
+        { channel: 'GameDataChannel' },
 				{
 					connected: () => console.log('connected'),
 					disconnected: () => console.log('disconnected'),
 					rejected: () => console.log('rejected'),
-					received: res => this.dataSwitch(JSON.parse(res.message)),
-					sendHint: hint => this.cable.perform('send_hint', hint),
+          received: res => this.dataSwitch(JSON.parse(res.message)),
+          sendHint: hint => this.cable.perform('send_hint', hint),
 					sendGuess: guess => this.cable.perform('send_guess', guess)
 				}
 			);
@@ -171,8 +168,6 @@ export class App extends Component {
 		}
 	};
 	render() {
-    console.log('APP state: ', this.state);
-
     const dialog = this.state.showDialog ? <ConfDialog message={this.state.confMsg} /> : null;
       
 		return (
@@ -204,7 +199,9 @@ export class App extends Component {
 					<Route
 						exact
 						path="/game"
-						component={() => (
+						component={
+              /* istanbul ignore next */
+              () => (
 							<Main
 								token={this.state.user.token}
 								hintLogs={this.state.hintLogs}
