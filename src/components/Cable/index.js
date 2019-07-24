@@ -1,6 +1,7 @@
-
 import React, { Fragment } from 'react';
 import { ActionCable } from 'react-actioncable-provider';
+const shortid = require('shortid');
+
 
 const Cable = ({ conversations, handleReceivedMessage }) => {
   return (
@@ -8,7 +9,8 @@ const Cable = ({ conversations, handleReceivedMessage }) => {
       {conversations.map(conversation => {
         return (
           <ActionCable
-            key={conversation.id}  
+          id={conversation.id}
+            key={shortid.generate()}  
             channel={{ channel: 'MessagesChannel', conversation: conversation.id }}
             onReceived={handleReceivedMessage}
           />
