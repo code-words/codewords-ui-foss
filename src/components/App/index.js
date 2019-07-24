@@ -80,9 +80,9 @@ export class App extends Component {
   setHint = data => {
     const { hintWord, relatedCards, currentPlayerId } = data;
 
-    this.setState({
-      currentPlayerId,
-      hint: { hintWord, relatedCards}
+    this.setState({ 
+      currentPlayerId, 
+      currentHint: { hintWord, relatedCards}
     })
   }
 
@@ -177,9 +177,11 @@ export class App extends Component {
 								token={this.state.user.token}
 								hintLogs={this.state.hintLogs}
                 cardData={this.state.cardData}
+                hint={this.state.currentHint}
                 isIntel={this.state.user.isIntel}
 								isActive={this.state.user.id === this.state.currentPlayerId}
-								cable={this.state.cable}
+                cable={this.state.cable}
+                user={this.state.user}
 								players={this.state.playerRoster}
 								sendGuess={this.cable.sendGuess}
 							/>
