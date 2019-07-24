@@ -1,0 +1,31 @@
+.active-true {
+  border: $player-active ridge 5px;
+}
+
+.active-false {
+  border: $intel-assassin ridge 5px;
+}
+
+.activeHint {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.active-true,
+.active-false {
+  h3 {
+    font-size: 1.4em;
+  }
+
+  p {
+    font-size: 1.2em;
+  }
+}
+
+strong {
+  color: $player-active;
+
+}

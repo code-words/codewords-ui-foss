@@ -7,7 +7,7 @@ import AgentInput from './AgentInput';
 import AgentHUD from './AgentHUD';
 
 const Main = props => {
-  const form = props.isActive //&& props.isIntel
+  const form = props.isActive && props.isIntel
     ? ( <AgentInput 
           websocket={props.websocket} 
           hintLogs={props.hintLogs} 
@@ -35,7 +35,12 @@ const Main = props => {
 		<main className="Main">
 			<ActionCableProvider url={API_WS_ROOT} socket={props.socket}>
 				<Score team={'blue'} score={scores.blue} players={[ players.blueIntel.name, players.blueGuesser.name ]} />
-        <Board playerType={'intel'} isActive={props.isActive} cardData={props.cardData} sendGuess={props.sendGuess} />
+        <Board 
+          playerType={'intel'} 
+          userName={props.user.name}
+          isActive={props.isActive} 
+          cardData={props.cardData} 
+          sendGuess={props.sendGuess} />
 				<Score team={'red'} score={scores.red} players={[ players.redIntel.name, players.redGuesser.name ]} />
 				<div className="offset" />
 				{form}
