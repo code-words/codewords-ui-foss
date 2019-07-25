@@ -212,6 +212,7 @@ export class App extends Component {
 								isActive={this.state.user.id === this.state.currentPlayerId}
                 cable={this.state.cable}
                 user={this.state.user}
+                currentPlayerId={this.state.currentPlayerId}
 								players={this.state.playerRoster}
 								sendGuess={this.cable.sendGuess}
 							/>
