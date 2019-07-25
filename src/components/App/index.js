@@ -10,6 +10,8 @@ import Main from '../Main';
 import ErrorScreen from '../ErrorScreen';
 import Cable from 'actioncable';
 import ConfDialog from '../ConfDialog';
+import { API_ROOT, API_WS_ROOT } from "../../variables/";
+
 
 export class App extends Component {
 	constructor() {
@@ -57,13 +59,12 @@ export class App extends Component {
   };
 
   setGame = async data => {
-    console.log('game data: ', data)
     const { cards, players, firstPlayerId } = data;
 		const user = players.find(p => p.id === this.state.user.id);
 		let cardData = cards;
 
 		if (user.isIntel) {
-			const res = await fetch(`http://localhost:3000/api/v1/intel?token=${this.state.user.token}`);
+			const res = await fetch(`${API_ROOT}/v1/intel?token=${this.state.user.token}`);
 			cardData = await res.json();
 			cardData = cardData.cards;
     }
@@ -118,8 +119,6 @@ export class App extends Component {
 
 	dataSwitch = result => {
     const { type, data } = result;
-    console.log(type,':' ,data)
-
 		switch (type) {
 			case 'player-joined':
 				this.setPlayer(data);
@@ -152,16 +151,16 @@ export class App extends Component {
 
 	createCable = token => {
 		if (this.state.user.token === token) {
-			let connection = Cable.createConsumer(`ws://localhost:3000/cable/${token}`);
+			let connection = Cable.createConsumer(`${API_WS_ROOT}/${token}`);
 
 			this.cable = connection.subscriptions.create(
-				{ channel: 'GameDataChannel' },
+        { channel: 'GameDataChannel' },
 				{
 					connected: () => console.log('connected'),
 					disconnected: () => console.log('disconnected'),
 					rejected: () => console.log('rejected'),
-					received: res => this.dataSwitch(JSON.parse(res.message)),
-					sendHint: hint => this.cable.perform('send_hint', hint),
+          received: res => this.dataSwitch(JSON.parse(res.message)),
+          sendHint: hint => this.cable.perform('send_hint', hint),
 					sendGuess: guess => this.cable.perform('send_guess', guess)
 				}
 			);
@@ -169,8 +168,6 @@ export class App extends Component {
 		}
 	};
 	render() {
-    console.log('APP state: ', this.state);
-
     const dialog = this.state.showDialog ? <ConfDialog message={this.state.confMsg} /> : null;
       
 		return (
@@ -202,7 +199,9 @@ export class App extends Component {
 					<Route
 						exact
 						path="/game"
-						component={() => (
+						component={
+              /* istanbul ignore next */
+              () => (
 							<Main
 								token={this.state.user.token}
 								hintLogs={this.state.hintLogs}
@@ -213,6 +212,7 @@ export class App extends Component {
 								isActive={this.state.user.id === this.state.currentPlayerId}
                 cable={this.state.cable}
                 user={this.state.user}
+                currentPlayerId={this.state.currentPlayerId}
 								players={this.state.playerRoster}
 								sendGuess={this.cable.sendGuess}
 							/>
