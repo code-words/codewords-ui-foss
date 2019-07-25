@@ -4,7 +4,11 @@ import React from 'react'
 
 
 describe('AgentHUD', () => {
-    let wrapper = shallow( <AgentHUD/>)
+  let wrapper = shallow(<AgentHUD
+    isActive={true}
+    hint={{hintWord: 'hello'}}
+    remainingAttempts={3}
+  />)
     it('should match snapshot', () => {
         expect(wrapper).toMatchSnapshot()
     });
