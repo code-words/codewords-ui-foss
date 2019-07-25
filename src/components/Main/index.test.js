@@ -15,3 +15,4 @@ describe('Main', () => {
 		expect(wrapper).toMatchSnapshot();
 	});
 });
+

@@ -4,13 +4,11 @@ import { shallow } from 'enzyme';
 
 describe('NewGame', () => {
   let wrapper;
-  let instance;
   let mockState;
   let handleUserInitMock = jest.fn();
 
   beforeEach(() => {
     wrapper = shallow(<NewGame handleUserInit= {handleUserInitMock} />);
-    instance = wrapper.instance();
     mockState = {
       name: '',
       redirect: false
@@ -65,7 +63,8 @@ describe('NewGame', () => {
     expect(wrapper.state()).toEqual(expectedState);
   });
 
-  it.skip('should call handleUserInit w/ response from Post', async () => {
+  it('should call handleUserInit w/ response from Post', async () => {
+    let spy = jest.spyOn(global, "fetch")
     let mockEvent = {
       target: {
         name: 'name',
@@ -73,12 +72,9 @@ describe('NewGame', () => {
       }
     }
     wrapper.instance().handleChange(mockEvent);
-
-    mockEvent = {
-      preventDefault: () => { }
-    }
+    mockEvent = { preventDefault: () => { } }
     wrapper.instance().handleSubmit(mockEvent)
-
-    await expect(handleUserInitMock).toHaveBeenCalled()
+    expect(wrapper.state('redirect')).toEqual(true)
+    expect(spy).toHaveBeenCalled()
   });
 })

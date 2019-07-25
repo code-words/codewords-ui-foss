@@ -98,7 +98,7 @@ describe('JoinGame', () => {
 //  =======================================
 // Todo: =================================
 //  =======================================
-  it.skip('should call handleUserInit w/ response from Post', async () => {
+  it('should call handleUserInit w/ response from Post', async () => {
     let mockEvent = {
       target: {
         name: 'name',

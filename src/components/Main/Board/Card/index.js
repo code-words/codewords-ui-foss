@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 class Card extends Component {
-	constructor(props) {
-    super(props);
-
-	}
-
   handleClick = e => {
     if (this.props.isActive && !this.props.card.type) {
       this.props.sendGuess({ id: e.currentTarget.id });
@@ -12,7 +7,8 @@ class Card extends Component {
   };
   
 	render() {
-    const { card, isActive, isHover } = this.props;
+		const { card, isActive, isHover } = this.props;
+		console.log(isHover)
     const { type, flipped, word, id } = card;
 		const intelCls = type ? type : '';
 		const clickCls = !type && isActive && !flipped ? 'clickable' : null;
