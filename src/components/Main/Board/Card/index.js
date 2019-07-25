@@ -9,7 +9,8 @@ class Card extends Component {
     if (this.props.isActive && !this.props.card.type) {
       this.props.sendGuess({ id: e.currentTarget.id });
     }
-	};
+  };
+  
 	render() {
     const { card, isActive, isHover } = this.props;
     const { type, flipped, word, id } = card;
