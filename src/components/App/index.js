@@ -134,7 +134,7 @@ export class App extends Component {
         break;
       case 'game-over':
         this.setGuess(data);
-        this.showConf(`End of Game!  ${data.winningTeam.toUpperCase()} team wins!`)
+        this.showConf(`End of Game! ${data.winningTeam.toUpperCase()} team wins!`, true)
         break;
       case 'illegal-action':
         this.showConf(data.error);
@@ -144,9 +144,16 @@ export class App extends Component {
 		}
   };
   
-  showConf = msg => {
+  showConf = (msg, end) => {
+    console.log(end)
     setTimeout(() => this.setState({ showDialog: true, confMsg: msg }), 500);
-    setTimeout(() => this.setState({ showDialog: false }), 2000);
+    if (!end) {
+      setTimeout(() => {
+        this.setState({ showDialog: false })
+      }, 2000)
+    } else {
+      console.log('else was hit')
+    }
   }
 
 	createCable = token => {
@@ -168,8 +175,14 @@ export class App extends Component {
 		}
   };
   
-	render() {
-    const dialog = this.state.showDialog ? <ConfDialog message={this.state.confMsg} /> : null;
+  render() {
+    const { showDialog, cardData, confMsg } = this.state;
+
+    const dialog = showDialog ? <ConfDialog
+      message={confMsg}
+      replay={this.state.cable.sendGuess}
+      over={cardData.find(c => c.type === 'assassin' && c.flipped)}
+    /> : null;
       
 		return (
       <div className="App">
