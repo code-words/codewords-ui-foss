@@ -188,7 +188,8 @@ export class App extends Component {
 			);
 			this.setState({ cable: this.cable });
 		}
-	};
+  };
+  
 	render() {
     const dialog = this.state.showDialog ? <ConfDialog message={this.state.confMsg} /> : null;
       
