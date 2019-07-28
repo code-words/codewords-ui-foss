@@ -95,15 +95,37 @@ export class App extends Component {
   setGuess = data => {
     const player = this.state.playerRoster
       .find(p => p.id === this.state.currentPlayerId);
+
     const { card, currentPlayerId, remainingAttempts } = data;
     let cardData = [ ...this.state.cardData ];
-    const cardIdx = cardData.findIndex(i => i.id === card.id);
-
-    cardData[cardIdx] = { ...cardData[cardIdx], ...card };
+    let cardIdx;
     
-    this.setState({ cardData, currentPlayerId, remainingAttempts }, () => this.showConf(`${player.name} guessed ${cardData[cardIdx].word}!`));
+    if (card){
+      const cardIdx = cardData.findIndex(i => i.id === card.id);
+      cardData[cardIdx] = { ...cardData[cardIdx], ...card };
+
+      this.setState(
+        { cardData, currentPlayerId, remainingAttempts },
+        this.showConf(
+          `${player.name} ${this.isTurnNull(cardData, cardIdx)}!`
+        )
+      );
+    } else {
+      this.setState(
+        { currentPlayerId, remainingAttempts },
+        this.showConf(`${player.name} ${this.isTurnNull(cardData)}!`)
+      );
+    }
 
     this.clearHint(remainingAttempts);
+  }
+
+  isTurnNull = (cardData, cardIdx) => {
+    if (cardIdx) {
+      return `guessed ${cardData[cardIdx].word}`;
+    } else {
+      return `passed their extra guess`;
+    }
   }
 
   clearHint = (remainingAttempts) => {
