@@ -6,7 +6,11 @@ const AgentHUD = ({ isActive, hint, remainingAttempts }) => {
     const appendDots = dots
       .map((d, ind) => <span id={`dot${ind+1}`} key={ind}>{d}</span>);
 
-      const instruction = isActive ? 'Click a card above. ' : '';
+    const btnPass = <button className="pass">Pass Turn</button>;
+    const canPass = remainingAttempts <= 1 ? true : false;
+
+    const instruction = isActive 
+      ? `Click a card above. ` : '';
 
     if (hint.hintWord) {
       return (
