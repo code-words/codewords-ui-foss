@@ -19,7 +19,6 @@ class AgentInput extends Component {
 
 	handleChange = e => {
     const { name, value } = e.target;
-    // if (name === 'hintWord') value = value.toLowerCase();
     
 		this.setState({ [name]: value });
 	};
@@ -27,7 +26,7 @@ class AgentInput extends Component {
 	handleSendEvent(e) {
 		e.preventDefault();
 		const { hintWord, numCards } = this.state;
-		let hint = { hintWord, numCards };
+		let hint = { hintWord: hintWord.toLowerCase(), numCards };
 
 		this.props.cable.sendHint(hint);
 		this.setState({ hintWord: '', numCards: 1 });
