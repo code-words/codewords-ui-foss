@@ -19,6 +19,7 @@ class AgentInput extends Component {
 
 	handleChange = e => {
     const { name, value } = e.target;
+    if (name === 'hintWord') value = value.toLowerCase();
     
 		this.setState({ [name]: value });
 	};
