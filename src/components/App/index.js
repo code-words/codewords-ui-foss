@@ -10,6 +10,7 @@ import Main from '../Main';
 import ErrorScreen from '../ErrorScreen';
 import Cable from 'actioncable';
 import ConfDialog from '../ConfDialog';
+import ReplayScreen from '../ReplayScreen';
 import { API_ROOT, API_WS_ROOT } from "../../variables/";
 
 
@@ -26,6 +27,7 @@ export class App extends Component {
       isLobbyFull: false,
       currentPlayerId: null,
       remainingAttempts: null,
+      winner: '',
       currentHint: {
         hintWord: '', 
         relatedCards: null
@@ -98,9 +100,8 @@ export class App extends Component {
 
     const { card, currentPlayerId, remainingAttempts } = data;
     let cardData = [ ...this.state.cardData ];
-    let cardIdx;
     
-    if (card){
+    if (card) {
       const cardIdx = cardData.findIndex(i => i.id === card.id);
       cardData[cardIdx] = { ...cardData[cardIdx], ...card };
 
@@ -155,8 +156,10 @@ export class App extends Component {
         this.setGuess(data);
         break;
       case 'game-over':
+        console.log(data)
         this.setGuess(data);
-        this.showConf(`End of Game!  ${data.winningTeam.toUpperCase()} team wins!`)
+        // add resetting of invite code from response and resetting of some state properties
+        setTimeout(() => this.setState({ winner: data.winningTeam}), 2500);
         break;
       case 'illegal-action':
         this.showConf(data.error);
@@ -190,12 +193,22 @@ export class App extends Component {
 		}
   };
   
-	render() {
-    const dialog = this.state.showDialog ? <ConfDialog message={this.state.confMsg} /> : null;
+  render() {
+    const { showDialog, cardData, confMsg } = this.state;
+
+    const replay = !this.state.winner ? null
+      : < ReplayScreen winner={this.state.winner} closeReplay={() => this.setState({winner: ''})}/>
+
+    const dialog = showDialog ? <ConfDialog
+      message={confMsg}
+      replay={this.state.cable.sendGuess}
+      over={cardData.find(c => c.type === 'assassin' && c.flipped)}
+    /> : null;
       
 		return (
       <div className="App">
         {dialog}
+        {replay}
 				<Header />
 				<Switch>
 					<Route exact path="/" component={StartScreen} />
