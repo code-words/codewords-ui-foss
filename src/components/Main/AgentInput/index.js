@@ -69,7 +69,8 @@ class AgentInput extends Component {
 					<input
 						name="hintWord"
 						onKeyPress={e => this.handleChatInputKeyPress(e)}
-						value={this.state.hint}
+            value={this.state.hint}
+            maxLength="15"
 						onChange={e => this.handleChange(e)}
 						type="text"
 						placeholder="Enter your hint..."
