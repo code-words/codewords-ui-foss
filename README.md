@@ -17,7 +17,7 @@ This app was created by <a href="https://github.com/joequincy">Jon Peterson</a>,
 
 This project is a Turing cross-pollination project between students of the frontend and backend programs, primarily focused on working with React and ActionCable websockets implementation on the frontend and Ruby on Rails and ActionCable websockets definition on the back-end.
 
-This app is based on the game Code Names from the Hitchhikers Guide to the Galaxy novel (with an added Archer theme), and it allows four players to join a game from four different client machines and play against each other on two teams.
+This app is based on the CodeNames board game (along with an added Archer theme), and it allows four players to join a game from four different client machines and play against each other on two teams.
 
 
 ## Screenshots
