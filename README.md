@@ -32,7 +32,7 @@ This app is based on the CodeNames board game (along with an added Archer theme)
 
 ## Getting Started
 
-You can view this application live on Heroku at: https://codewords-ui.herokuapp.com/ !
+You can view this application live on Heroku at: playcodewords.com !
 
 OR
 
